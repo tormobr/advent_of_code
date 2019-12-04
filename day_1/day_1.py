@@ -21,4 +21,3 @@ def part2(filename):
 
 print(part1("input.txt"))
 print(part2("input.txt"))
-print(hax("input.txt"))
