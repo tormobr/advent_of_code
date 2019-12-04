@@ -45,7 +45,7 @@ Here are a few more examples:
 
 Your puzzle answer was 207.
 
-## Part Two ---
+## Part
 
 It turns out that this circuit is very timing-sensitive; you actually need to minimize the signal delay.
 
