@@ -1,4 +1,3 @@
-
 # Solution to part 1
 def part1(data):
     i = 0
@@ -12,6 +11,10 @@ def part1(data):
 
 # executes a intcode
 def execute_code(data, i):
+    opcode, param1, param2 = parse_instruction(data, i) 
+    return OPS[opcode](param1, param2, i, data)
+
+def parse_instruction(data, i):
     instruction = data[i]
     modes = [x for x in str(instruction)]
     while len(modes) < 5:
@@ -21,27 +24,37 @@ def execute_code(data, i):
     if opcode not in [3,4,99]:
         param1 = data[i+1] if  int(modes[-3]) else data[data[i+1]]
         param2 = data[i+2] if  int(modes[-4]) else data[data[i+2]]
-        param3 = data[i+3] if  int(modes[-5])  else data[data[i+3]]
- 
-    if opcode == 1:
-        data[data[i+3]] = param1 + param2
-    elif opcode == 2:
-        data[data[i+3]] = param1 * param2
-    elif opcode == 3:
-        data[data[i+1]] = 1
-        return 2
-    elif opcode == 4:
-        data[0] = data[data[i+1]]
-        return 2
-    elif opcode == 99:
-        return -1
+
+    return opcode, param1, param2
+    
+
+def op_add(p1, p2, i, data):
+    data[data[i+3]] = p1 + p2
     return 4
 
-# sets the noun and verb in the intcodes
-def set_noun_verb(n, v, data):
-    data[1] = n
-    data[2] = v
+def op_mul(p1, p2, i, data):
+    data[data[i+3]] = p1 * p2
+    return 4
 
+def op_in(p1, p2, i, data):
+    data[data[i+1]] = 1
+    return 2
+
+def op_out(p1, p2, i, data):
+    data[0] = data[data[i+1]]
+    return 2
+
+def op_halt(p1, p2, i, data):
+    return -1
+
+OPS = {
+    1: op_add,
+    2: op_mul,
+    3: op_in,
+    4: op_out,
+    99: op_halt
+}
+    
 if __name__ == "__main__":
     data = [int(x) for x in open("input.txt", "r").read().split(",")]
     print(f"Part 1 answer: {part1(data.copy())}")
