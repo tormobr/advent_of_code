@@ -37,3 +37,119 @@ Expand intcode computer from day 2 to support opcode 3(input), opcode 4(ouput) a
 #### Part 2:
 Extend the computer with new operation codes: less, jump if true, jump if false and equals
 
+
+## Day 6: Unknown
+#### Part 1:
+
+#### Part 2:
+
+
+## Day 7: Unknown
+#### Part 1:
+
+#### Part 2:
+
+
+## Day 8: Unknown
+#### Part 1:
+
+#### Part 2:
+
+
+## Day 9: Unknown
+#### Part 1:
+
+#### Part 2:
+
+
+## Day 10: Unknown
+#### Part 1:
+
+#### Part 2:
+
+
+## Day 11: Unknown
+#### Part 1:
+
+#### Part 2:
+
+
+## Day 12: Unknown
+#### Part 1:
+
+#### Part 2:
+
+
+## Day 13: Unknown
+#### Part 1:
+
+#### Part 2:
+
+
+## Day 14: Unknown
+#### Part 1:
+
+#### Part 2:
+
+
+## Day 15: Unknown
+#### Part 1:
+
+#### Part 2:
+
+
+## Day 16: Unknown
+#### Part 1:
+
+#### Part 2:
+
+
+## Day 17: Unknown
+#### Part 1:
+
+#### Part 2:
+
+
+## Day 18: Unknown
+#### Part 1:
+
+#### Part 2:
+
+
+## Day 19: Unknown
+#### Part 1:
+
+#### Part 2:
+
+
+## Day 20: Unknown
+#### Part 1:
+
+#### Part 2:
+
+
+## Day 21: Unknown
+#### Part 1:
+
+#### Part 2:
+
+
+## Day 22: Unknown
+#### Part 1:
+
+#### Part 2:
+
+
+## Day 23: Unknown
+#### Part 1:
+
+#### Part 2:
+
+
+## Day 24: Unknown
+#### Part 1:
+
+#### Part 2:
+
+
+
