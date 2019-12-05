@@ -2,9 +2,10 @@
 
 ## Day 1: The Tyranny of the Rocket Equation
 ### Part 1
-    calculate fuel for modules
+calculate fuel for modules
+
 ### Part 2
-    calculate the fuel for added fuel
+calculate the fuel for added fuel
 
 ## Day 2: 1202 Program Alarm
 
