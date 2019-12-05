@@ -1,4 +1,3 @@
-import math 
 
 def part1(filename):
     fd = open(filename, "r")
