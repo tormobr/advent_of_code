@@ -38,10 +38,12 @@ Expand intcode computer from day 2 to support opcode 3(input), opcode 4(ouput) a
 Extend the computer with new operation codes: less, jump if true, jump if false and equals
 
 
-## Day 6: Unknown
+## Day 6: Universal Orbit Map
 #### Part 1:
+Find the number of direct and indirect orbits based on a input. A tree structure where e.g. A orbits B and B orbits C .. meaning A indirectly orbits C
 
 #### Part 2:
+Find the shortest path between yourself and santa using orbital transfers
 
 
 ## Day 7: Unknown
