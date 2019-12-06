@@ -4,15 +4,19 @@ def part1(data):
     tree = {}
     for line in data:
         A,B = line.split(")")
-        if A not in orbits.keys():
+        if A not in tree.keys():
             tree[A] = []
         tree[A].append(B)
-    print(tree)
-print(tree)
+    return hax("COM",tree, 0)
 
 
-def hax(node):
-    pass 
+def hax(node, tree, depth):
+    if leaf(node,tree): return depth
+    return sum([hax(child, tree, depth+1) for child in tree[node]])+depth
+
+
+def leaf(node, tree):
+    return node not in tree.keys()
 
 # solution for part 2
 def part2(data):
