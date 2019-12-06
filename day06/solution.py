@@ -1,43 +1,18 @@
 
 # solution for part 1
 def part1(data):
-    orbits = {}
+    tree = {}
     for line in data:
         A,B = line.split(")")
         if A not in orbits.keys():
-            orbits[A] = [B]
-        else: orbits[A].append(B)
-    parents = get_parent(orbits)
+            tree[A] = []
+        tree[A].append(B)
+    print(tree)
+print(tree)
 
-    res = 0
-    ind = {}
-    for key in parents.keys():
-        print(key)
-        p = parents[key]
-        ind[key] = [p]
-        while True:
-            if p == "COM": 
-                break 
-            p = parents[p]
-            ind[key].append(p)
-            res += 1
-        res+=1
-    print(res)  
-    
-    rec(parents, "YOU", [])
 
-def rec(orbits, current, paths, n):
-    if parents[current] = "SAN": paths.append(n)
-    for 
-    print(start)
-
-def get_parent(orbits):
-    new = {}
-    for key, value in orbits.items():
-        for v in value:
-            new[v] = (key)
-    return new
-
+def hax(node):
+    pass 
 
 # solution for part 2
 def part2(data):
