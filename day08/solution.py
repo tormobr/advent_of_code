@@ -52,7 +52,6 @@ if __name__ == "__main__":
                 index +=1
         hax += 1
     print(f"Part 1 answer: {part1(data[:-1])}")
-    #print(f"Part 2 answer: {part2(data[:-1])}")
     res = part2(data[:-1])
     hax = ""
     for i, x in enumerate(res) :
@@ -63,5 +62,4 @@ if __name__ == "__main__":
                 hax += "X "
         hax += "\n"
 
-    print(res)
-    print(hax) 
+    print(f"Part 2 answer:\n{hax}")
