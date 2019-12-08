@@ -2,6 +2,11 @@ from itertools import permutations
 
 class Intcoder:
     def __init__(self, data, idd):
+        self.data = data
+        self.opcode = 0
+        self.ip = 0
+        self.current_input = 0
+
         # operation codes and their functions
         self.OPS = {
             1: self.op_add,
@@ -14,21 +19,14 @@ class Intcoder:
             8: self.op_equals,
             99: self.op_halt
         }
-        self.data = data
-        self.opcode = 0
-        self.ip = 0
-        self.id = idd
-        self.current_input = 0
 
     # Solution to part 1 and two
     def eval(self, i1):
         self.input = i1
-        ret = 0
-        while ret != -1:
+        ret = None
+        while ret == None:
             ret = self.execute_code()
-            if self.opcode == 4:
-                return self.data[0]
-        return -1
+        return ret
 
     # executes a intcode
     def execute_code(self):
@@ -67,6 +65,7 @@ class Intcoder:
     def op_out(self, *args):
         self.data[0] = self.data[self.data[self.ip+1]]
         self.ip += 2
+        return self.data[0]
 
     # Jumps to parameter 2 index if parameter 1 is true
     def op_jump_if_true(self, p1, p2):
@@ -90,26 +89,26 @@ class Intcoder:
     def op_halt(self, *args):
         return -1
 
-def task_n(data, inputs):
+# solves part 1 and 2 based on input phase settings
+def part_n(data, inputs):
     perms = list(permutations(inputs))
-    results = []
+    winner = 0
     for p in perms:
         computers = [Intcoder(data.copy(), x) for x in inputs]
         output = 0
         inputs = [[p] for p in p]
-        inputs[0].append(0)   # The first aplifiers input
+        inputs[0].append(0)   # The first amplifiers input
         while output != -1:
             for i in range(len(inputs)):
                 output = computers[i].eval(inputs[i])
                 inputs[(i+1)%len(inputs)].append(output)
+                winner = output if output > winner else winner
 
-                results.append(output)
- 
+    return winner
 
-    return(max(results))
 if __name__ == "__main__":
     data = [int(x) for x in open("input.txt", "r").read().split(",")]
     inputs1 = [0,1,2,3,4]
     inputs2 = [5,6,7,8,9]
-    print(f"Part 1 answer: {task_n(data.copy(), inputs1)}")
-    print(f"Part 2 answer: {task_n(data.copy(), inputs2)}")
+    print(f"Part 1 answer: {part_n(data.copy(), inputs1)}")
+    print(f"Part 2 answer: {part_n(data.copy(), inputs2)}")
