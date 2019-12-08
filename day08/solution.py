@@ -51,7 +51,7 @@ if __name__ == "__main__":
                 data[hax][i].append(int(str_data[index]))
                 index +=1
         hax += 1
-    #print(f"Part 1 answer: {part1(data[:-1])}")
+    print(f"Part 1 answer: {part1(data[:-1])}")
     #print(f"Part 2 answer: {part2(data[:-1])}")
     res = part2(data[:-1])
     hax = ""
