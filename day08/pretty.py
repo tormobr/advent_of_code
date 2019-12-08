@@ -2,7 +2,7 @@
 import numpy as np
 # solution for part 1
 def part1(data, width, height, layers):
-    maxx = min([(np.count_nonzero(data[i] == 0),i) for i in range(layers)], key=lambda x: x[0])
+    maxx = min([(np.count_nonzero(data[i] == 0),i) for i in range(layers)])
     ones = np.count_nonzero(data[maxx[1]] == 1)
     twos = np.count_nonzero(data[maxx[1]] == 2)
     return ones * twos
