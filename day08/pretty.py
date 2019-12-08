@@ -19,14 +19,10 @@ def parse_file(data, width, height, layers):
     return data
 
 # Creates a nice readable string from the result matrix
-def pretty_print(data):
-    output = ""
-    for line in data :
-        for elem in line:
-            output += "  " if elem == 0 else "X " 
-        output += "\n"
-    return output
-
+def pretty_print(data, width, height):
+    data = np.concatenate([data, [["\n"]]*6], axis=1)
+    data = np.where(data == "1", "X ", data)
+    return "".join(np.reshape(np.where(data == "0", "  ", data), ((width+1)*height)))
 
 if __name__ == "__main__":
     str_data = np.array(list(open("input.txt", "r").read().strip()), dtype=int)
@@ -37,4 +33,4 @@ if __name__ == "__main__":
 
     print(f"Part 1 answer: {part1(data, width, height, layers)}")
     part2_res = part2(data, width, height, layers)
-    print(f"Part 2 answer:\n{pretty_print(part2_res)}")
+    print(f"Part 2 answer:\n{pretty_print(part2_res, width, height)}")
