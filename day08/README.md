@@ -59,4 +59,10 @@ So, the final image looks like this:
     10
 
 ### What message is produced after decoding your image?
+X X X     X X X X     X X       X X     X     X   
+X     X   X         X     X   X     X   X   X     
+X     X   X X X     X         X     X   X X       
+X X X     X         X         X X X X   X   X     
+X         X         X     X   X     X   X   X     
+X         X           X X     X     X   X     X  
 
