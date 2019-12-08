@@ -1,7 +1,7 @@
 from itertools import permutations
 
 class Intcoder:
-    def __init__(self, data):
+    def __init__(self, data, idd):
         # operation codes and their functions
         self.OPS = {
             1: self.op_add,
@@ -17,11 +17,12 @@ class Intcoder:
         self.data = data
         self.opcode = 0
         self.ip = 0
+        self.id = idd
+        self.current_input = 0
 
     # Solution to part 1 and two
-    def eval(self, i1, i2):
+    def eval(self, i1):
         self.input = i1
-        self.input2 = i2
         ret = 0
         while ret != -1:
             ret = self.execute_code()
@@ -58,9 +59,8 @@ class Intcoder:
 
     # takes input and stores at parameter 1
     def op_in(self, *args):
-        #print("inputting: ", self.input)
-        self.data[self.data[self.ip+1]] = self.input
-        self.input = self.input2
+        self.data[self.data[self.ip+1]] = self.input[self.current_input]
+        self.current_input += 1
         self.ip += 2
 
     # ouputs value on parameter 1
@@ -90,26 +90,26 @@ class Intcoder:
     def op_halt(self, *args):
         return -1
 
-if __name__ == "__main__":
-    data = [int(x) for x in open("input.txt", "r").read().split(",")]
-    inputs = [5,6,7,8,9]
-    #inputs = [0,1,2,3,4]
-    all_inputs = [list(p) for p in list(permutations(inputs))]
+def task_n(data, inputs):
+    perms = list(permutations(inputs))
     results = []
-    for inputs in all_inputs:
-        computers = [Intcoder(data.copy()) for _ in range(5)]
+    for p in perms:
+        computers = [Intcoder(data.copy(), x) for x in inputs]
         output = 0
-        first = True
-        outputs = inputs.copy()
+        inputs = [[p] for p in p]
+        inputs[0].append(0)   # The first aplifiers input
         while output != -1:
-            for index,i in enumerate(inputs):
-                print(inputs)
-                output = computers[index].eval(i, output)
-                outputs[(index+1)%5] = output
+            for i in range(len(inputs)):
+                output = computers[i].eval(inputs[i])
+                inputs[(i+1)%len(inputs)].append(output)
 
-            results.append(output)
-            inputs = outputs
+                results.append(output)
  
 
-    print(max(results))
-    #print(f"Part 1 answer: {eval(data.copy())}")
+    return(max(results))
+if __name__ == "__main__":
+    data = [int(x) for x in open("input.txt", "r").read().split(",")]
+    inputs1 = [0,1,2,3,4]
+    inputs2 = [5,6,7,8,9]
+    print(f"Part 1 answer: {task_n(data.copy(), inputs1)}")
+    print(f"Part 2 answer: {task_n(data.copy(), inputs2)}")
