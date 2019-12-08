@@ -1,4 +1,3 @@
-
 import numpy as np
 # solution for part 1
 def part1(data, width, height, layers):
@@ -9,25 +8,15 @@ def part1(data, width, height, layers):
 
 # solution for part 2 
 def part2(data, width, height, layers):
-    result = np.zeros((height, width))
-    for y in range(height):
-        for x in range(width):
-            for l in range(layers):
-                if data[l][y][x] != 2:
-                    result[y][x] = data[l][y][x]
-                    break
+    result = data[0]
+    for i in range(1, layers):
+        result = np.where(result != 2, result, data[i])
     return result
 
 # Reads the string data into a 3d array of grids
-def parse_file(str_data, width, height, layers):
-    index = 0
-    data = np.zeros((layers, height ,width))
-    for i in range(layers):
-        for j in range(height):
-            data[i][j] = np.array([int(c) for c in str_data[index:index+width]])
-            index += width
+def parse_file(data, width, height, layers):
+    data = np.reshape(data, (layers, height,width))
     return data
-
 
 # Creates a nice readable string from the result matrix
 def pretty_print(data):
@@ -40,7 +29,7 @@ def pretty_print(data):
 
 
 if __name__ == "__main__":
-    str_data = open("input.txt", "r").read()
+    str_data = np.array(list(open("input.txt", "r").read().strip()), dtype=int)
     width = 25
     height  = 6
     layers = len(str_data)//(width*height)
