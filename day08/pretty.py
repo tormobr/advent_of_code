@@ -9,7 +9,6 @@ def part1(data, width, height, layers):
 
 # solution for part 2 
 def part2(data, width, height, layers):
-
     result = np.zeros((height, width))
     for y in range(height):
         for x in range(width):
@@ -30,6 +29,7 @@ def parse_file(str_data, width, height, layers):
     return data
 
 
+# Creates a nice readable string from the result matrix
 def pretty_print(data):
     output = ""
     for line in data :
@@ -37,6 +37,7 @@ def pretty_print(data):
             output += "  " if elem == 0 else "X " 
         output += "\n"
     return output
+
 
 if __name__ == "__main__":
     str_data = open("input.txt", "r").read()
