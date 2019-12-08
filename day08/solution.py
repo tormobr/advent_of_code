@@ -58,9 +58,9 @@ if __name__ == "__main__":
     for i, x in enumerate(res) :
         for j, strudel in enumerate(x):
             if strudel == 0:
-                hax += "."
+                hax += "  "
             else: 
-                hax += "X"
+                hax += "X "
         hax += "\n"
 
     print(res)
