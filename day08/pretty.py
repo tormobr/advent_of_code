@@ -2,20 +2,21 @@
 import numpy as np
 # solution for part 1
 def part1(data, width, height, layers):
-    maxx = min([(np.count_nonzero(data[i] == 0),i) for i in range(layers)])
+    maxx = min([(np.count_nonzero(data[i] == 0),i) for i in range(layers)], key=lambda x: x[0])
     ones = np.count_nonzero(data[maxx[1]] == 1)
     twos = np.count_nonzero(data[maxx[1]] == 2)
     return ones * twos
 
 # solution for part 2 
-def part2(data, width, height):
+def part2(data, width, height, layers):
+
     result = np.zeros((height, width))
-    for x in range(width):
-        for y in range(height):
-            layer = 0
-            while data[layer][y][x] == 2:
-                layer += 1
-            result[y][x] = data[layer][y][x]
+    for y in range(height):
+        for x in range(width):
+            for l in range(layers):
+                if data[l][y][x] != 2:
+                    result[y][x] = data[l][y][x]
+                    break
     return result
 
 # Reads the string data into a 3d array of grids
@@ -45,5 +46,5 @@ if __name__ == "__main__":
     data = parse_file(str_data, width, height, layers)
 
     print(f"Part 1 answer: {part1(data, width, height, layers)}")
-    part2_res = part2(data, width, height)
+    part2_res = part2(data, width, height, layers)
     print(f"Part 2 answer:\n{pretty_print(part2_res)}")
