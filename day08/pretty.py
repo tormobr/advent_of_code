@@ -1,25 +1,10 @@
 
 import numpy as np
 # solution for part 1
-def part1(data, width, height):
-    res = []
-    for i, A in enumerate(data):
-        zeros = 0 
-        for j, B in enumerate(A):
-            for C in B:
-                if C == 0:
-                    zeros += 1
-        res.append([i, zeros])
-    
-    maxx = min(res, key=lambda x: x[1])[0]
-    ones = 0
-    twos = 0
-    for A in data[maxx]:
-        for B in A:
-            if B == 1:
-                ones += 1
-            elif B == 2:
-                twos += 1
+def part1(data, width, height, layers):
+    maxx = min([(np.count_nonzero(data[i] == 0),i) for i in range(layers)], key=lambda x: x[0])
+    ones = np.count_nonzero(data[maxx[1]] == 1)
+    twos = np.count_nonzero(data[maxx[1]] == 2)
     return ones * twos
 
 # solution for part 2 
@@ -34,9 +19,8 @@ def part2(data, width, height):
     return result
 
 # Reads the string data into a 3d array of grids
-def parse_file(str_data, width, height):
+def parse_file(str_data, width, height, layers):
     index = 0
-    layers = len(str_data)//(width*height)
     data = np.zeros((layers, height ,width))
     for i in range(layers):
         for j in range(height):
@@ -57,8 +41,9 @@ if __name__ == "__main__":
     str_data = open("input.txt", "r").read()
     width = 25
     height  = 6
-    data = parse_file(str_data, width, height)
+    layers = len(str_data)//(width*height)
+    data = parse_file(str_data, width, height, layers)
 
-    print(f"Part 1 answer: {part1(data, width, height)}")
+    print(f"Part 1 answer: {part1(data, width, height, layers)}")
     part2_res = part2(data, width, height)
     print(f"Part 2 answer:\n{pretty_print(part2_res)}")
