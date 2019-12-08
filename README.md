@@ -46,10 +46,12 @@ Find the number of direct and indirect orbits based on a input. A tree structure
 Find the shortest path between yourself and santa using orbital transfers
 
 
-## Day 7: Unknown
+## Day 7: Amplification Circuit
 #### Part 1:
+Find the maximum output from 5 amplifiers(intcoders) connect together based on permutations. output from A goes to input in B etc..
 
 #### Part 2:
+Loop the output from last amplifier to the first, and run untill all exits by a code 99 and get the largets output
 
 
 ## Day 8: Unknown
