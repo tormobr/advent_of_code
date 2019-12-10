@@ -40,31 +40,32 @@ class Intcoder:
     def eval(self, i1):
         self.input = i1
         ret = None
-        while ret != -1:
-            #print(self.data)
+        while ret == None:
             ret = self.execute_code()
-        return self.data[0]
+        return ret
 
     # executes a intcode
     def execute_code(self):
         param1, param2, param3 = self.parse_instruction() 
         return self.OPS[self.opcode](param1, param2, param3)
 
+    # 21199
     # parses an instruction and its parameters
     def parse_instruction(self):
         param1, param2, param3 = 0, 0, 0 
+        parameter_base = 2
         params = [param1, param2, param3]
-        instruction = "0"*(5 - len(str(self.data[self.ip]))) + str(self.data[self.ip])    # adds missing 0's
+        instruction = "0"*(5 - len(str(self.data[self.ip]))) + str(self.data[self.ip])
         self.opcode = int(instruction[-2] + instruction[-1])
         for i in range(self.num_params[self.opcode]):
-            if int(instruction[-3-i]) == 1:
+            if int(instruction[parameter_base-i]) == 1:
                 params[i] = self.ip+i+1
-            elif int(instruction[-3-i]) == 2:
+            elif int(instruction[parameter_base-i]) == 2:
                 params[i] = self.data[self.ip+i+1] + self.relative_base
             else:
                 params[i] = self.data.get(self.ip+i+1, 0 )
 
-        return params[0], params[1], params[2]
+        return params
 
 
     # adds two parameters and stores in third
@@ -85,11 +86,10 @@ class Intcoder:
 
     # ouputs value on parameter 1
     def op_out(self, p1, *args):
-        print("output", self.data.get(p1,0))
         self.output += str(self.data.get(p1, 0))
         #self.data[0] = param1
         self.ip += 2
-        return self.data[0]
+        return self.data.get(p1,0)
 
     # Jumps to parameter 2 index if parameter 1 is true
     def op_jump_if_true(self, p1, p2, *args):
@@ -110,7 +110,6 @@ class Intcoder:
         self.ip += 4
 
     def set_relative_base(self, p1, *args):
-        print("relative base set", self.relative_base +self.data[p1])
         self.relative_base += self.data.get(p1, 0)
         self.ip += 2
 
@@ -118,10 +117,18 @@ class Intcoder:
     def op_halt(self, *args):
         return -1
 
+def part_n(data, inn):
+    out = 0
+    computer = Intcoder(data, 0)
+    outputs = []
+    while out != -1:
+        out = computer.eval(inn)
+        if out != -1:
+            outputs.append(out)
+    return outputs
+
 if __name__ == "__main__":
     data = [int(x) for x in open("input.txt", "r").read().split(",")]
-    #data = data + [0 for i in range(1125890)]
     data = {i:x for (i,x) in enumerate(data)}
-    c = Intcoder(data.copy(), 0)
-    out = c.eval([2])
-    #print(out) 
+    print(f"Part 1 answer: {part_n(data.copy(), [1])}")
+    print(f"Part 1 answer: {part_n(data.copy(), [2])}")
