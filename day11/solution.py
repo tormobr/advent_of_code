@@ -1,13 +1,6 @@
 import numpy as np
 from intcoder import Intcoder
 
-def move(n, current):
-    if n == 0:
-        n = -1
-        print("turnasdkfjlbkblsdjfalkdsjfba:", n)
-
-    return (current+n)
-
 def pretty_print(H):
     max_x, max_y, min_x, min_y = get_dimensions(H)
     print(max_x, max_y)
@@ -33,23 +26,21 @@ def get_dimensions(H):
     return dim_x, dim_y, min_x, min_y
 
 def part_n(data, inn):
+    computer = Intcoder(data, 0)
     directions = [(0,-1), (1,0), (0,1), (-1,0)]
-    dirr = (0,-1)
     dirr_index = 0
     x,y = 0, 0
     painted = {}
     out = 0
-    computer = Intcoder(data, 0)
-    first = True
+
     while out != -1:
         out = computer.eval(inn)
         painted[(x,y)] = out
 
         out2 = computer.eval(inn)
-        dirr_index = move(out2, dirr_index)
-        dirr = directions[dirr_index%4]
-        x += directions[dirr_index][0]
-        y += directions[dirr_index][1]
+        dirr_index += 1 if out2 else -1
+        x += directions[dirr_index%4][0]
+        y += directions[dirr_index%4][1]
         inn.append(painted.get((x,y),0))
 
     return painted, len(painted)
