@@ -44,13 +44,12 @@ def part_n(data, inn):
     while out != -1:
         out = computer.eval(inn)
         painted[(x,y)] = out
+
         out2 = computer.eval(inn)
-        print("turn ", out2)
         dirr_index = move(out2, dirr_index)
         dirr = directions[dirr_index%4]
-        print("new dir: ", dirr)
-        x += dirr[0]
-        y += dirr[1]
+        x += directions[dirr_index][0]
+        y += directions[dirr_index][1]
         inn.append(painted.get((x,y),0))
 
     return painted, len(painted)
