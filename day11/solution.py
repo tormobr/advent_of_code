@@ -33,20 +33,11 @@ def pretty_print(H):
         c_x = key[0] + abs(min_x)
         c_y = key[1] + abs(min_y)
         arr[c_y][c_x] = value
-    res = ""
-    print(arr) 
-    #arr = np.concatenate([arr, [["\n"]]*max_y], axis=1)
 
-    #arr = np.where(arr == "1", "X", arr)
-    #arr = np.where(arr == "0", ".", arr)
-    for y in range(max_y):
-        for x in range(max_x):
-            if arr[y][x] == "1":
-                res += "X " 
-            else:
-                res += "  "
-        res += "\n"
-    return res
+    arr = np.where(arr != "1", "  ", arr)
+    arr = np.where(arr == "1", "\u2b1c", arr)
+    arr = np.concatenate([arr, [["\n"]]*max_y], axis=1)
+    return "".join(np.reshape(arr, ((max_x+1)*max_y)))
 
 def get_dimensions(H):
     arr = [key for key in H.keys()]
