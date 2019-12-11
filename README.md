@@ -78,10 +78,12 @@ Find the location to build the monitoring station that is able to observe the mo
 Calculate The destruction order of a laser beam fired from the monitoring station.
 
 
-## Day 11: Unknown
+## Day 11: Space Police
 #### Part 1:
+Build a robot moving on a grid painting either black or white. Color and movement is based on output from intcode computer.
 
 #### Part 2:
+Change the starting field to white and fetch crypted message inside the paint.
 
 
 ## Day 12: Unknown
