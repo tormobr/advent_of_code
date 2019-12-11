@@ -143,17 +143,17 @@ def move(n, dirr):
 
 def pretty_print(H):
     print(H)
-    max_x = 1000
-    max_y = 1000
+    max_x = 300
+    max_y = 300
     arr = [[0 for i in range(max_x)] for j in range(max_y)]
     for key, value in H.items():
         print(key)
-        arr[key[0]][key[1]] = value
+        arr[key[1]-1][key[0]] = value
     res = ""
     for y in range(max_y):
         for x in range(max_x):
             if arr[y][x] == 1:
-                res += "X "
+                res += "X " 
             else:
                 res += "  "
         res += "\n"
@@ -161,7 +161,7 @@ def pretty_print(H):
 
 def part_n(data, inn):
     dirr = (0,1)
-    inn = 1 
+    inn = 1
     x,y = 0, 0
     painted = {}
     out = 0
@@ -169,17 +169,20 @@ def part_n(data, inn):
     outputs = []
     total = 0
     hax = 0
-    out = computer.eval(1)
+    first = True
     while out != -1:
-
+        if not first:
+            inn = painted.get((x,y),0)
+        else:
+            first = False
+            inn = 1
         out = computer.eval(inn)
-        inn = painted.get((x,y),0)
         if (x,y) in painted:
             total += 1
         hax += 1
         painted[(x,y)] = out
         
-        out2 = computer.eval(None)
+        out2 = computer.eval(inn)
         dirr =move(out2, dirr)
         x += dirr[0]
         y += dirr[1]
