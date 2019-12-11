@@ -1,5 +1,6 @@
 import math
 def part1(data):
+    print([get_angles(data,x,y) for (x,y) in data])
     best = 0
     xy = (0,0)
     for x,y in data:
