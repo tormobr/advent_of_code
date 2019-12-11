@@ -1,7 +1,14 @@
 import math
 def part1(data):
-    return max([get_angles(data, item[0], item[1]) for item in data], key=lambda x: x[1])
-
+    best = 0
+    xy = (0,0)
+    for x,y in data:
+        angles, length = get_angles(data, x, y)
+        if length > best:
+            best = length
+            xy = (x,y)
+    return best, xy
+ 
 def get_angles(data, x, y):
     hax = {}
     for item in data:
@@ -14,12 +21,9 @@ def get_angles(data, x, y):
     return hax,len(hax)
             
 def part2(data, x, y):
-    R = get_angles(data, x, y)
+    R,_ = get_angles(data, x, y)
     R = [(k, R[k]) for k in reversed(sorted(R.keys()))]
-    
-    return R[199]
-
-    return R, len(R)
+    return x +R[199][1][0][0], y+R[199][1][0][1]
 
 def get_relative(x, y, i, j):
     return i - x, j - y
@@ -27,6 +31,7 @@ def get_relative(x, y, i, j):
 if __name__ == "__main__":
     lines = [line for line in open("input.txt", "r")]
     data = [(x,y) for y in range(len(lines)) for x in range(len(lines[y])) if lines[y][x] == "#"]
-    print(part1(data)[1])
-    #print(part2(data, 26, 36))
+    maxx, xy = part1(data)
+    print(maxx)
+    print(part2(data, xy[0], xy[1]))
 
