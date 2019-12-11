@@ -6,10 +6,9 @@ def part1(data):
     for y in range(len(data)):
         for x in range(len(data[0])):
             if data[y][x] == "#":
-                res.append(get_below(data, x, y) +
+                res.append((get_below(data, x, y) +
                             get_above(data, x, y) + 
-                            get_on_line(data,x , y))
-    print(res)
+                            get_on_line(data,x , y), (y,x)))
     return max(res)
 
 def get_below(data, x, y):
