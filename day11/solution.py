@@ -1,3 +1,4 @@
+import numpy as np
 from intcoder import Intcoder
 
 def move(n, dirr):
@@ -26,15 +27,21 @@ def move(n, dirr):
 
 def pretty_print(H):
     max_x, max_y, min_x, min_y = get_dimensions(H)
-    arr = [[0 for i in range(max_x)] for j in range(max_y)]
+    print(max_x, max_y)
+    arr = np.zeros((max_y, max_x), dtype=str)
     for key, value in H.items():
         c_x = key[0] + abs(min_x)
         c_y = key[1] + abs(min_y)
         arr[c_y][c_x] = value
     res = ""
+    print(arr) 
+    #arr = np.concatenate([arr, [["\n"]]*max_y], axis=1)
+
+    #arr = np.where(arr == "1", "X", arr)
+    #arr = np.where(arr == "0", ".", arr)
     for y in range(max_y):
         for x in range(max_x):
-            if arr[y][x] == 1:
+            if arr[y][x] == "1":
                 res += "X " 
             else:
                 res += "  "
@@ -60,7 +67,6 @@ def part_n(data, inn):
     first = True
     while out != -1:
         out = computer.eval(inn)
-        hax += 1
         painted[(x,y)] = out
         out2 = computer.eval(inn)
         dirr =move(out2, dirr)
@@ -68,7 +74,6 @@ def part_n(data, inn):
         y += dirr[1]
         inn.append(painted.get((x,y),0))
 
-    pretty_print(painted)
     return painted, len(painted)
 
 if __name__ == "__main__":
