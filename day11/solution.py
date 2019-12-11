@@ -1,29 +1,12 @@
 import numpy as np
 from intcoder import Intcoder
 
-def move(n, dirr):
-    if dirr[1] == 1 and n == 0:
-        dirr = [1,0]
-    elif dirr[1] == -1 and n == 0:
-        dirr = [-1,0]
+def move(n, current):
+    if n == 0:
+        n = -1
+        print("turnasdkfjlbkblsdjfalkdsjfba:", n)
 
-    elif dirr[0] == 1 and n == 0:
-        dirr = [0,-1]
-    elif dirr[0] == -1 and n == 0:
-        dirr = [0,1]
-
-
-    elif dirr[1] == 1 and n == 1:
-        dirr = [-1,0]
-    elif dirr[1] == -1 and n == 1:
-        dirr = [1,0]
-
-    elif dirr[0] == 1 and n == 1:
-        dirr = [0,1]
-    elif dirr[0] == -1 and n == 1:
-        dirr = [0,-1]
-
-    return dirr
+    return (current+n)
 
 def pretty_print(H):
     max_x, max_y, min_x, min_y = get_dimensions(H)
@@ -50,7 +33,9 @@ def get_dimensions(H):
     return dim_x, dim_y, min_x, min_y
 
 def part_n(data, inn):
+    directions = [(0,-1), (1,0), (0,1), (-1,0)]
     dirr = (0,-1)
+    dirr_index = 0
     x,y = 0, 0
     painted = {}
     out = 0
@@ -60,7 +45,10 @@ def part_n(data, inn):
         out = computer.eval(inn)
         painted[(x,y)] = out
         out2 = computer.eval(inn)
-        dirr =move(out2, dirr)
+        print("turn ", out2)
+        dirr_index = move(out2, dirr_index)
+        dirr = directions[dirr_index%4]
+        print("new dir: ", dirr)
         x += dirr[0]
         y += dirr[1]
         inn.append(painted.get((x,y),0))
