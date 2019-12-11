@@ -54,22 +54,28 @@ Find the maximum output from 5 amplifiers(intcoders) connect together based on p
 Loop the output from last amplifier to the first, and run untill all exits by a code 99 and get the largets output
 
 
-## Day 8: Unknown
+## Day 8: Space Image Format
 #### Part 1:
+Find the number of twos and ones in the pixel layer with fewest zeros
 
 #### Part 2:
+Decode the message by stacking layers on top. transparrent if 2
 
 
-## Day 9: Unknown
+## Day 9: Sensor Boost
 #### Part 1:
+Extend the intcode computer to handle relative parameter mode, pluss opcode 9(set relative base). Also new features such as larger memory then initial program.
 
 #### Part 2:
+Test with other input values to computer
 
 
-## Day 10: Unknown
+## Day 10: Monitoring Station
 #### Part 1:
+Find the location to build the monitoring station that is able to observe the most astroids from one place.
 
 #### Part 2:
+Calculate The destruction order of a laser beam fired from the monitoring station.
 
 
 ## Day 11: Unknown
