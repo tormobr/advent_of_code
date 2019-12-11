@@ -62,7 +62,6 @@ def part_n(data, inn):
         out = computer.eval(inn)
         hax += 1
         painted[(x,y)] = out
-        
         out2 = computer.eval(inn)
         dirr =move(out2, dirr)
         x += dirr[0]
