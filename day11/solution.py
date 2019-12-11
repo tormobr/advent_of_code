@@ -56,8 +56,6 @@ def part_n(data, inn):
     first = True
     while out != -1:
         out = computer.eval(inn)
-        if (x,y) in painted:
-            total += 1
         hax += 1
         painted[(x,y)] = out
         
