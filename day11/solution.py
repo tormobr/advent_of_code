@@ -2,35 +2,23 @@ from collections import defaultdict
 import numpy as np
 from intcoder import Intcoder
 
-
 # Prints the painting in a nice way
 def pretty_print(H, minmax):
-    max_x, max_y = get_dimensions(H, minmax)
-    min_x, min_y = minmax[1], minmax[3]
-    print(max_x, max_y)
-    arr = np.zeros((max_y, max_x), dtype=str)
-    for key, value in H.items():
-        c_x = key[0] + abs(min_x)
-        c_y = key[1] + abs(min_y)
-        arr[c_y][c_x] = value
-
-    arr = np.where(arr != "1", "  ", arr)
-    arr = np.where(arr == "1", "\u2b1c", arr)
-    arr = np.concatenate([arr, [["\n"]]*max_y], axis=1)
-    return "".join(np.reshape(arr, ((max_x+1)*max_y)))
-
-# Gets the dimensions needed for the painted pic
-def get_dimensions(H, minmax):
-    #arr = [key for key in H.keys()]
-    #max_x = max(arr, key=lambda x: x[0])[0]
-    #max_y = max(arr, key=lambda x: x[1])[1]
-    #min_x = min(arr, key=lambda x: x[0])[0]
-    #min_y = min(arr, key=lambda x: x[1])[1]
     dim_x = abs(minmax[1]) + abs(minmax[0]) + 1
     dim_y = abs(minmax[2]) + abs(minmax[3]) + 1 
-    return dim_x, dim_y
+    min_x, min_y = minmax[1], minmax[3]
+    arr = np.zeros((dim_y, dim_x), dtype=str)
+    # Fill array at coordinates with values
+    for k, value in H.items():
+        arr[k[1]+abs(min_y)][k[0]+abs(min_x)] = value
+    
+    # Replace 1 and 0 with more readable stuff
+    arr = np.where(arr != "1", "  ", arr)
+    arr = np.where(arr == "1", "\u2b1c", arr)
+    arr = np.concatenate([arr, [["\n"]]*dim_y], axis=1)
+    return "".join(np.reshape(arr, ((dim_x+1)*dim_y)))
 
-
+# Check if current x or y is new low or high
 def test_new_minmax(x,y, minmax):
     if x > minmax[0]: minmax[0] = x
     if x < minmax[1]: minmax[1] = x
@@ -45,6 +33,7 @@ def part_n(data, inn):
     x, y, color, dir_index = 0, 0, 0, 0
     painted = defaultdict(int)
 
+    # While intcode program is not done paint new square and move
     while color != -1:
         color = computer.eval(inn)
         painted[(x,y)] = color
