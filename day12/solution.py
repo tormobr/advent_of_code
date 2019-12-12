@@ -11,7 +11,7 @@ for line in lines:
     planets[(x,y,z)] = [0,0,0]
     print(x,y,z)
 
-steps = 1001
+steps = 999
 for i in range(steps):
     new_planets = {}
     print(planets)
