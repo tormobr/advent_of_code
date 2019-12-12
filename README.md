@@ -62,6 +62,7 @@ Find the number of twos and ones in the pixel layer with fewest zeros
 
 #### Part 2:
 Decode the message by stacking layers on top. transparrent if 2
+![Alt text](./day08/plot.gif)
 
 
 ## Day 9: Sensor Boost

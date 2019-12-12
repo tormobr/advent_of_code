@@ -21,7 +21,7 @@ def parse_file(data, width, height, layers):
 # Creates a nice readable string from the result matrix
 def pretty_print(data, width, height):
     data = np.concatenate([data, [["\n"]]*6], axis=1)
-    data = np.where(data == "1", "X ", data)
+    data = np.where(data == "1", "\u2b1c", data)
     return "".join(np.reshape(np.where(data == "0", "  ", data), ((width+1)*height)))
 
 if __name__ == "__main__":
