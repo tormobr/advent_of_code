@@ -86,7 +86,7 @@ Build a robot moving on a grid painting either black or white. Color and movemen
 
 #### Part 2:
 Change the starting field to white and fetch crypted message inside the paint.
-![Alt text](./day11/plot.png)
+![Alt text](./day11/plot.gif)
 
 ## Day 12: Unknown
 #### Part 1:
