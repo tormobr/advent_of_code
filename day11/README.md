@@ -1,4 +1,6 @@
+
 # Day 11: Space Police
+![Alt text](plot.gif)
 
 On the way to Jupiter, you're pulled over by the Space Police.
 
