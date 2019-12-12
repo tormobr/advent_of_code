@@ -11,23 +11,19 @@ for line in lines:
     planets[(x,y,z)] = [0,0,0]
     print(x,y,z)
 
-steps = 999
+steps = 1000
 for i in range(steps):
     new_planets = {}
-    print(planets)
     for k,v in planets.items():
-        x_min = 0
-        y_min = 0
-        z_min = 0
         for k2, v2 in planets.items():
-            if k == k2:
-                continue
             for i in range(3):
                 val = 0 
                 if k[i] < k2[i]:
                     val = 1
                 elif k[i] > k2[i]:
                     val = -1
+                elif k[i] == k2[i]:
+                    val = 0
                 planets[k][i] += val
 
         #planets[k][0] += x_min
@@ -41,8 +37,9 @@ res = 0
 for k, v in planets.items():
     a = sum([abs(x) for x in k])
     b = sum([abs(x) for x in v])
+    print(a,b,a*b)
     res += a*b
-print("energy: ",res)
+print("energy:",res)
 
          
 
