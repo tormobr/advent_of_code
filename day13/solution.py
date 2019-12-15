@@ -70,6 +70,8 @@ def part2(data):
             current_score = tile_id
             scores.append(current_score)
         else:
+            if tile_id == -1:
+                break
             arr[y,x] = tile_id
             arrays.append(arr.copy())
         print(current_score)
@@ -83,8 +85,9 @@ def update(data):
     return mat 
 
 def data_gen(arrays, iterations):
-    for i in range(iterations):
+    for i in range(0, iterations, 2):
         yield generate_data(arrays, i)
+
 if __name__ == "__main__":
     data = {i:int(x) for (i,x) in  enumerate(open("input.txt", "r").read().split(","))}
     part2_res, arrays = part2(data)
@@ -92,6 +95,6 @@ if __name__ == "__main__":
     ax.set_xticklabels([])
     ax.set_yticklabels([])
     mat = ax.matshow(generate_data(arrays, len(arrays)-1))
-    ani = animation.FuncAnimation(fig, update, lambda: data_gen(arrays, len(arrays)), interval=.1, save_count=len(arrays))
+    ani = animation.FuncAnimation(fig, update, lambda: data_gen(arrays, len(arrays)), interval=10, save_count=len(arrays))
     plt.show()
     ani.save("plot.mp4", )
