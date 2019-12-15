@@ -1,7 +1,10 @@
 import time
+from copy import deepcopy
 import os
 import numpy as np
 from intcoder import Intcoder 
+from matplotlib import pyplot as plt
+from matplotlib import animation
 
 def part1(data):
     computer = Intcoder(data, 0)
@@ -30,6 +33,7 @@ def draw_frame(arr):
     
 
 def part2(data):
+    arrays = []
     data[0] = 2
     computer = Intcoder(data, 0)
     ret = 0 
@@ -42,10 +46,10 @@ def part2(data):
     counter = 0
     scores = []
     while tile_id != -1:
-        if counter > 45*22:
-            os.system("clear")
-            draw_frame(arr)
-            time.sleep(.01)
+        #if counter > 45*22:
+            #os.system("clear")
+            #draw_frame(arr)
+            #time.sleep(0.0001 / (current_score+1))
         counter += 1
         x = computer.eval(inn[1:])
         y = computer.eval(inn[1:])
@@ -67,8 +71,27 @@ def part2(data):
             scores.append(current_score)
         else:
             arr[y,x] = tile_id
+            arrays.append(arr.copy())
         print(current_score)
-    return max(scores)
+    return max(scores), arrays
+
+def generate_data(arrays, i):
+    return arrays[i]
+
+def update(data):
+    mat.set_data(data)
+    return mat 
+
+def data_gen(arrays, iterations):
+    for i in range(iterations):
+        yield generate_data(arrays, i)
 if __name__ == "__main__":
     data = {i:int(x) for (i,x) in  enumerate(open("input.txt", "r").read().split(","))}
-    print("part 2 res :" ,part2(data))
+    part2_res, arrays = part2(data)
+    fig, ax = plt.subplots()
+    ax.set_xticklabels([])
+    ax.set_yticklabels([])
+    mat = ax.matshow(generate_data(arrays, len(arrays)-1))
+    ani = animation.FuncAnimation(fig, update, lambda: data_gen(arrays, len(arrays)), interval=1, save_count=len(arrays))
+    plt.show()
+    ani.save("plot.mp4", )
