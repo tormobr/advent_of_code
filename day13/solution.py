@@ -42,13 +42,10 @@ def part2(data):
     counter = 0
     scores = []
     while tile_id != -1:
-        #if counter > 45*22:
-            #os.system("clear")
-            #print(inn)
-            #draw_frame(arr)
-            #time.sleep(.05)
-            #print(x,y, tile_id)
-            #print(paddle_x, ball_x)
+        if counter > 45*22:
+            os.system("clear")
+            draw_frame(arr)
+            time.sleep(.01)
         counter += 1
         x = computer.eval(inn[1:])
         y = computer.eval(inn[1:])
