@@ -92,6 +92,6 @@ if __name__ == "__main__":
     ax.set_xticklabels([])
     ax.set_yticklabels([])
     mat = ax.matshow(generate_data(arrays, len(arrays)-1))
-    ani = animation.FuncAnimation(fig, update, lambda: data_gen(arrays, len(arrays)), interval=1, save_count=len(arrays))
+    ani = animation.FuncAnimation(fig, update, lambda: data_gen(arrays, len(arrays)), interval=.1, save_count=len(arrays))
     plt.show()
     ani.save("plot.mp4", )
