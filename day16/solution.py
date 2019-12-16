@@ -18,10 +18,13 @@ def part2(data):
         #print(out)
     return out[:9]
 
-def get_pattern(iteration, out_index):
-    pattern = [0,1,0,-1]
-    pattern_index  = (iteration +1) // (out_index + 1) % 4
-    return pattern[pattern_index]
+def get_pattern(i, n):
+    basic_pattern = [0,1,0,-1] 
+    repeated = np.repeat(basic_pattern, i+1)
+    ret = np.tile(repeated, n // len(repeated)+1)
+    ret = np.roll(ret, -1)
+    ret = ret[:n]
+    return ret
 
 
 def phase2(inn):
@@ -33,18 +36,14 @@ def phase2(inn):
         s -= inn[i]
     return out
 
+
 def phase(inn):
     print("new phase")
     out = []
-    basic_pattern = [0,1,0,-1] 
     for i in range(len(inn)):
-        repeated = np.repeat(basic_pattern, i+1)
-        full = np.tile(repeated, len(inn) // len(repeated)+1)
-        full = np.roll(full, -1)
-        full = full[:len(inn)]
         multi = inn * full
         total = int(np.sum(inn*full))
-
+        pattern = get_pattern(i, len(inn))
         last = int(str(total)[-1])
         out.append(last)
     return out
