@@ -6,7 +6,6 @@ class Intcoder:
         self.data = data
         self.opcode = 0
         self.ip = 0
-        self.current_input = 0
         self.relative_base = 0
         self.output = ""
 
@@ -80,8 +79,8 @@ class Intcoder:
 
     # takes input and stores at parameter 1
     def op_in(self, p1, *args):
-        self.data[p1] = self.input[self.current_input]
-        self.current_input += 1
+        self.data[p1] = self.input
+        #self.current_input += 1
         self.ip += 2
 
     # ouputs value on parameter 1

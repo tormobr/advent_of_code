@@ -1,5 +1,4 @@
 import time
-from copy import deepcopy
 import os
 import numpy as np
 from intcoder import Intcoder 
@@ -42,7 +41,7 @@ def part2(data):
     current_score = 0
     paddle_x = 0
     ball_x = 0
-    inn = [0]
+    inn = None
     counter = 0
     scores = []
     while tile_id != -1:
@@ -51,21 +50,17 @@ def part2(data):
             #draw_frame(arr)
             #time.sleep(0.0001 / (current_score+1))
         counter += 1
-        x = computer.eval(inn[1:])
-        y = computer.eval(inn[1:])
-        tile_id = computer.eval(inn[1:])
+        x = computer.eval(inn)
+        y = computer.eval(inn)
+        tile_id = computer.eval(inn)
         if tile_id == 4:
             ball_x = x
         elif tile_id == 3:
             paddle_x = x 
 
-        
-        if paddle_x < ball_x and tile_id == 4:
-            inn.append(1)
-        elif paddle_x > ball_x and tile_id == 4:
-            inn.append(-1)
-        elif paddle_x == ball_x and tile_id == 4:
-            inn.append(0)
+        inn = 0 
+        if paddle_x < ball_x: inn = 1
+        elif paddle_x > ball_x: inn = -1
         if x == -1 and y == 0:
             current_score = tile_id
             scores.append(current_score)
