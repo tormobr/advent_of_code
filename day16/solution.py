@@ -6,10 +6,7 @@ def part1(data):
     return "".join([str(x) for x in data[:8]])
 
 def part2(data):
-    print(data)
     message_offset = int("".join([str(x) for x in data[:7]]))
-    print(message_offset)
-    print(len(data))
     out = data[message_offset:]
     for i in range(100):
         out = phase2(out)
@@ -21,13 +18,15 @@ def part2(data):
 
 def phase2(inn):
     print("new phase")
+    return ((np.cumsum(inn[::-1])))
+    rev = inn[::-1]
     s = sum(inn)
     out = []
     for i in range(len(inn)):
         out += [((s % 10)+ 10)%10]
         s -= inn[i]
     return out
-    
+
 
 # executes one phase and returns output list
 def phase(inn):
@@ -45,11 +44,12 @@ def get_pattern(i, n):
     repeated = np.repeat(basic_pattern, i+1)
     return np.roll(np.tile(repeated, n // len(repeated)+1),-1)[:n]
 
+print(phase2([1,2,3,4]))
 string = open("input.txt").read().strip()
 list_data = [int(x) for x in string]
  
 data1 = np.array(list_data)
 
-print(f"Part 1 answer: {part1(data1.copy())}")
-#data2 = np.array(list_data*10000)
+#print(f"Part 1 answer: {part1(data1.copy())}")
+data2 = np.array(list_data*10000)
 #print(part2(data2.copy()))
