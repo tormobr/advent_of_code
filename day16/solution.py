@@ -8,12 +8,15 @@ def part1(data):
 def phase(inn):
     print("new phase")
     out = []
+    
     for i in range(len(inn)):
+        print("digit:", i)
         full = np.zeros((len(inn)+1))
         #print(np.shape(full))
         #print(np.shape(inn))
         pattern = [0,1,0,-1]
         index = 0
+        filled = False
         for j in range(len(full)):
             for k in range(i+1):
                 if index < len(full):
@@ -21,6 +24,10 @@ def phase(inn):
                     #print("adding here")
                     full[index] = pattern[j%4]
                     index += 1
+                else:
+                    filled = True
+                    break
+            if filled: break
             j += i+1
         #print("full:", full)
         full = full[1:]
