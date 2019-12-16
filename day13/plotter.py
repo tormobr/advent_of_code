@@ -8,7 +8,7 @@ class Animater:
         self.mat = ax.matshow(self.generate_data(arrays, len(arrays)-1))
         ani = animation.FuncAnimation(fig, self.update, lambda: self.data_gen(arrays, len(arrays)), interval=10, save_count=len(arrays))
         plt.show()
-        #ani.save("plot.mp4", )
+        ani.save("plot.mp4", )
 
     def generate_data(self, arrays, i):
         return arrays[i]
@@ -18,5 +18,5 @@ class Animater:
         return self.mat 
 
     def data_gen(self, arrays, iterations):
-        for i in range(0, iterations, 2):
+        for i in range(iterations):
             yield self.generate_data(arrays, i)
