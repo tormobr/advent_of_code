@@ -1,36 +1,25 @@
-import time
 import numpy as np
-def part1(data):
-    for i in range(100):
+
+# Solution to part 1
+def part1(data, iterations):
+    for i in range(iterations):
         data = phase(data)
     return "".join([str(x) for x in data[:8]])
 
-def part2(data):
+# solution to part 2
+# since message_offset if after half we can use cumulative sum from the
+# back to the start. There are only 1 and 0 for pattern after half.
+def part2(data, iterations):
     message_offset = int("".join([str(x) for x in data[:7]]))
-    out = data[message_offset:]
-    for i in range(100):
-        out = phase2(out)
-        print(i)
-        #print(out)
-    return out[:9]
-
-
-
-def phase2(inn):
-    print("new phase")
-    return ((np.cumsum(inn[::-1])))
-    rev = inn[::-1]
-    s = sum(inn)
-    out = []
-    for i in range(len(inn)):
-        out += [((s % 10)+ 10)%10]
-        s -= inn[i]
-    return out
+    in_out = data[message_offset:]
+    for i in range(iterations):
+        reverse = in_out[::-1]
+        in_out = last_digit(np.cumsum(reverse))[::-1]
+    return "".join([str(x) for x in in_out[:8]])
 
 
 # executes one phase and returns output list
 def phase(inn):
-    print("new phase")
     l = len(inn)
     return [last_digit(np.sum(inn * get_pattern(i, l))) for i in range(l)]
 
@@ -44,12 +33,13 @@ def get_pattern(i, n):
     repeated = np.repeat(basic_pattern, i+1)
     return np.roll(np.tile(repeated, n // len(repeated)+1),-1)[:n]
 
-print(phase2([1,2,3,4]))
-string = open("input.txt").read().strip()
-list_data = [int(x) for x in string]
- 
-data1 = np.array(list_data)
 
-#print(f"Part 1 answer: {part1(data1.copy())}")
-data2 = np.array(list_data*10000)
-#print(part2(data2.copy()))
+if __name__ == "__main__":
+    string = open("input.txt").read().strip()
+    list_data = [int(x) for x in string]
+     
+    data1 = np.array(list_data)
+    data2 = np.array(list_data*10000)
+
+    print(f"Part 1 answer: {part1(data1.copy(), 100)}")
+    print(f"Part 2 answer: {part2(data2.copy(), 100)}")
