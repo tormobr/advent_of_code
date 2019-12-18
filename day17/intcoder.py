@@ -9,7 +9,6 @@ class Intcoder:
         self.ip = 0
         self.current_input = 0
         self.relative_base = 0
-        self.output = ""
 
         # operation codes and their functions
         self.OPS = {
@@ -87,7 +86,6 @@ class Intcoder:
 
     # ouputs value on parameter 1
     def op_out(self, p1, *args):
-        self.output += str(self.data.get(p1, 0))
         #self.data[0] = param1
         self.ip += 2
         return self.data.get(p1,0)
