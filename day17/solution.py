@@ -23,8 +23,8 @@ def trim_array(arr):
     return ret
 
 
-def string_to_ascii_list(string: str) -> list:
-    return list(map(ord, list(string)))
+def string_to_ascii_list(s)
+    return list(map(ord, list(s)))
 
 main = string_to_ascii_list('A,B,A,B,A,C,A,C,B,C\n'
                             'R,6,L,10,R,10,R,10\n'
