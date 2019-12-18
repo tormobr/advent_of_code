@@ -12,6 +12,12 @@ class Maze_solver:
         self.directions = {1:(0,-1), 2:(0,1), 3:(-1,0), 4:(1,0)}
         self.backtracking = {1: 2, 2: 1, 3:4, 4:3}
         self.visited = set()
+        self.computer = Intcoder(data, 0)
+        self.max_x = 42  #fetched from part 1
+        self.max_y = 42  #fetched from part 1
+        self.base_x = (self.max_x//2)
+        self.base_y = (self.max_y//2)
+        self.arr = [[0]*self.max_x for i in range(self.max_y)]
 
     def draw_frame(self, arr):
         #os.system("clear")
@@ -28,69 +34,60 @@ class Maze_solver:
         #time.sleep(0.1)
 
     def part1(self, data):
-        computer = Intcoder(data, 0)
-        max_x = 42
-        max_y = 42
-        base_x = (max_x//2)
-        base_y = (max_y//2)
-        arr = [[0]*max_x for i in range(max_y)]
-        #arr[base_y+y][base_x+x] = 2
-        count = 0
-        visited = defaultdict(int)
         results = []
 
-        res = self.rec(computer, arr,  base_x, base_y, 1, results)
-        depth = self.get_depth(arr, 9, 3, -1)
+        res = self.rec(self.base_x, self.base_y, 1, results)
+        depth = self.get_depth(9, 3, -1)
         
         return results, depth
 
 
-    def get_depth(self, arr, x, y, depth):
-        arr[y][x] = 2
-        self.draw_frame(arr) 
+    def get_depth(self, x, y, depth):
+        self.arr[y][x] = 2
+        self.draw_frame(self.arr) 
         time.sleep(0.001)
         depths = [0,0,0,0]
-        if arr[y][x] == 1:
+        if self.arr[y][x] == 1:
             return 0
         for i in range(1,5):
             new_x = x+self.directions[i][0]
             new_y = y+self.directions[i][1]
-            if arr[new_y][new_x] == 1:
-                depths[i-1] = self.get_depth(arr, new_x, new_y, depth+1)
+            if self.arr[new_y][new_x] == 1:
+                depths[i-1] = self.get_depth(new_x, new_y, depth+1)
         return max(depths) +1
 
-    def rec(self, computer,arr, x, y, steps, results):
+    def rec(self, x, y, steps, results):
         steppers = []
         print(steps)
         time.sleep(.001)
-        arr[y][x] = 2
+        self.arr[y][x] = 2
         self.visited.add((x,y))
         for i in range(1,5):
             new_x = x + self.directions[i][0]
             new_y = y + self.directions[i][1]
             if (new_x, new_y) in self.visited:
                 continue
-            out = computer.eval(i) 
+            out = self.computer.eval(i) 
             if out == 0:
-                arr[new_y][new_x] = 3
-                self.draw_frame(arr)
+                self.arr[new_y][new_x] = 3
+                self.draw_frame(self.arr)
                 continue
             elif out == 1:
-                self.draw_frame(arr)
-                arr[new_y][new_x] = 2
-                arr[y][x] = 1
-                steppers.append(self.rec(computer,arr, new_x, new_y, steps+1, results))
-                computer.eval(self.backtracking[i])
-                arr[y][x] = 2
+                self.draw_frame(self.arr)
+                self.arr[new_y][new_x] = 2
+                self.arr[y][x] = 1
+                steppers.append(self.rec(new_x, new_y, steps+1, results))
+                self.computer.eval(self.backtracking[i])
+                self.arr[y][x] = 2
             elif out == 2:
                 print(new_x, new_y)
-                arr[new_y][new_x] = 4
+                self.arr[new_y][new_x] = 4
                 print("doons", results)
-                computer.eval(self.backtracking[i])
-                self.draw_frame(arr)
+                self.computer.eval(self.backtracking[i])
+                self.draw_frame(self.arr)
         
                 results.append(steps)
-        arr[y][x] = 1
+        self.arr[y][x] = 1
 
 if __name__ == "__main__":
     data = [int(x) for x in open("input.txt", "r").read().split(",")]
