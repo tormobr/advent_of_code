@@ -23,14 +23,18 @@ def trim_array(arr):
     return ret
 
 
-def string_to_ascii_list(s)
+def string_to_ascii_list(s):
     return list(map(ord, list(s)))
 
-main = string_to_ascii_list('A,B,A,B,A,C,A,C,B,C\n'
-                            'R,6,L,10,R,10,R,10\n'
-                            'L,10,L,12,R,10\n'
-                            'R,6,L,12,L,10\n'
-                            'n\n')
+
+
+str_main = ('A,B,A,B,A,C,A,C,B,C\n'
+        'R,6,L,10,R,10,R,10\n'
+        'L,10,L,12,R,10\n'
+        'R,6,L,12,L,10\n'
+        'n\n')
+
+main = string_to_ascii_list(str_main)
 
 def part_n(data, part=1):
     computer = Intcoder(data, 0)
@@ -62,7 +66,6 @@ if __name__ == "__main__":
     part1_res = get_intersections(trim_array(arr))
     print(image) 
     print(f"Part 1 answer: {part1_res}")
-    #print(find_path(trim_array(arr)))
     arr, part2_res = part_n(data.copy(), part=2)
     print(f"Part 2 answer: {part2_res}")
 

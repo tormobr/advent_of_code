@@ -89,16 +89,20 @@ Build a robot moving on a grid painting either black or white. Color and movemen
 Change the starting field to white and fetch crypted message inside the paint.
 ![Alt text](./day11/plot.gif)
 
-## Day 12: Unknown
+## Day 12: The N-body problem
 #### Part 1:
+Get the total energy in the system after 100 iterations
+#### Part 2:
+Get the number of steps before the state of the system repeats itself.
+
+
+## Day 13: Care Package
+#### Part 1:
+Intcode program draws blocks, walls, ball and paddle. How many blocks are there?
 
 #### Part 2:
-
-
-## Day 13: Unknown
-#### Part 1:
-
-#### Part 2:
+Part 2 is to play the game(spoiler; it is breakout).
+![Alt text](./day13/plot.gif)
 
 
 ## Day 14: Unknown
@@ -107,22 +111,28 @@ Change the starting field to white and fetch crypted message inside the paint.
 #### Part 2:
 
 
-## Day 15: Unknown
+## Day 15: Oxygen System
 #### Part 1:
+Find the shortest path from the starting position of the repaire droid to the broken oxygen tank
 
 #### Part 2:
+The oxygen is filling the roooms. Get the number of timesteps before everything is filled
+![Alt text](./day15/plot.gif)
 
 
-## Day 16: Unknown
+## Day 16: Flawed Frequency Transmission
 #### Part 1:
+Calculate output for each phase based on rules and input list. What is the 8 first digits after 100 phases?
 
 #### Part 2:
+Multiply the input times 10000 and do the same. Brute force wont work. Have to be smart.
 
-
-## Day 17: Unknown
+## Day 17: Set and Forget
 #### Part 1:
+Vacuum bot moving outside the ship on scaffolds. get the number of intersections of scaffolds. 
 
 #### Part 2:
+get the path the bot has to take to cover everything. Must på compressed into Main, A, B, C. Intcode program has limit of 20 chars.
 
 
 ## Day 18: Unknown
