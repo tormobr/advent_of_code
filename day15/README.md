@@ -1,4 +1,4 @@
-![Alt text](cropped.gif)
+![Alt text](plot.gif)
 # Day 15: Oxygen System
 
 Out here in deep space, many things can go wrong. Fortunately, many of those things have indicator lights. Unfortunately, one of those lights is lit: the oxygen system for part of the ship has failed!
