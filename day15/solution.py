@@ -1,3 +1,5 @@
+from copy import deepcopy
+from plotter import Animater
 from collections import defaultdict
 import time 
 import random
@@ -8,16 +10,17 @@ from copy import deepcopy
 
 class Maze_solver:
     def __init__(self, data):
-        self.arr =  0
+        self.grid =  0
         self.directions = {1:(0,-1), 2:(0,1), 3:(-1,0), 4:(1,0)}
         self.backtracking = {1: 2, 2: 1, 3:4, 4:3}
         self.visited = set()
         self.computer = Intcoder(data, 0)
-        self.max_x = 42  #fetched from part 1
-        self.max_y = 42  #fetched from part 1
-        self.base_x = (self.max_x//2)
-        self.base_y = (self.max_y//2)
-        self.arr = [[0]*self.max_x for i in range(self.max_y)]
+        self.max_x = 41  #fetched from part 1
+        self.max_y = 41  #fetched from part 1
+        self.base_x = (self.max_x//2)+1
+        self.base_y = (self.max_y//2)+1
+        self.grid = [[0]*self.max_x for i in range(self.max_y)]
+        self.arrays = [deepcopy(self.grid)]
 
     def draw_frame(self, arr):
         #os.system("clear")
@@ -29,6 +32,7 @@ class Maze_solver:
                 elif arr[i][j] == 2: ret += "D"
                 elif arr[i][j] == 3: ret += "#"
                 elif arr[i][j] == 4: ret += "O"
+                else: ret += "B"
             ret += "\n"
         print(ret)
         #time.sleep(0.1)
@@ -37,30 +41,30 @@ class Maze_solver:
         results = []
 
         res = self.rec(self.base_x, self.base_y, 1, results)
-        depth = self.get_depth(9, 3, -1)
+        depth = self.get_depth(9, 3, 0)-1
         
         return results, depth
 
 
     def get_depth(self, x, y, depth):
-        self.arr[y][x] = 2
-        self.draw_frame(self.arr) 
+        self.grid[y][x] = 10-(depth*0.01)
+        self.arrays.append(deepcopy(self.grid))
+        self.draw_frame(self.grid) 
         time.sleep(0.001)
         depths = [0,0,0,0]
-        if self.arr[y][x] == 1:
+        if self.grid[y][x] == 1:
             return 0
         for i in range(1,5):
             new_x = x+self.directions[i][0]
             new_y = y+self.directions[i][1]
-            if self.arr[new_y][new_x] == 1:
+            if self.grid[new_y][new_x] == 1:
                 depths[i-1] = self.get_depth(new_x, new_y, depth+1)
         return max(depths) +1
 
     def rec(self, x, y, steps, results):
-        steppers = []
-        print(steps)
         time.sleep(.001)
-        self.arr[y][x] = 2
+        self.grid[y][x] = 2
+        self.arrays.append(deepcopy(self.grid))
         self.visited.add((x,y))
         for i in range(1,5):
             new_x = x + self.directions[i][0]
@@ -69,28 +73,32 @@ class Maze_solver:
                 continue
             out = self.computer.eval(i) 
             if out == 0:
-                self.arr[new_y][new_x] = 3
-                self.draw_frame(self.arr)
+                self.grid[new_y][new_x] = 3
+                self.draw_frame(self.grid)
+                self.arrays.append(deepcopy(self.grid))
                 continue
             elif out == 1:
-                self.draw_frame(self.arr)
-                self.arr[new_y][new_x] = 2
-                self.arr[y][x] = 1
-                steppers.append(self.rec(new_x, new_y, steps+1, results))
+                self.grid[new_y][new_x] = 2
+                self.grid[y][x] = 1
+                self.draw_frame(self.grid)
+                self.arrays.append(deepcopy(self.grid))
+                self.rec(new_x, new_y, steps+1, results)
                 self.computer.eval(self.backtracking[i])
-                self.arr[y][x] = 2
+                self.grid[y][x] = 2
             elif out == 2:
                 print(new_x, new_y)
-                self.arr[new_y][new_x] = 4
+                self.grid[new_y][new_x] = 4
                 print("doons", results)
                 self.computer.eval(self.backtracking[i])
-                self.draw_frame(self.arr)
+                self.draw_frame(self.grid)
+                self.arrays.append(deepcopy(self.grid))
         
                 results.append(steps)
-        self.arr[y][x] = 1
+        self.grid[y][x] = 1
 
 if __name__ == "__main__":
     data = [int(x) for x in open("input.txt", "r").read().split(",")]
     data = {i:x for (i,x) in enumerate(data)}
     M = Maze_solver(data.copy())
     print(M.part1(data.copy()))
+    Animater(M.arrays)
