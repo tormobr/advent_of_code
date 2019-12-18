@@ -102,6 +102,7 @@ Intcode program draws blocks, walls, ball and paddle. How many blocks are there?
 
 #### Part 2:
 Part 2 is to play the game(spoiler; it is breakout).
+
 ![Alt text](./day13/plot.gif)
 
 
