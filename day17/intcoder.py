@@ -81,9 +81,8 @@ class Intcoder:
 
     # takes input and stores at parameter 1
     def op_in(self, p1, *args):
-        # changed from array with inputs
-        self.data[p1] = self.input
-        #self.current_input += 1
+        self.data[p1] = self.input[self.current_input]
+        self.current_input = (self.current_input+ 1) %len(self.input)
         self.ip += 2
 
     # ouputs value on parameter 1
