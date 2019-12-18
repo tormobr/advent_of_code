@@ -62,6 +62,8 @@ class Maze_solver:
         return max(depths) +1
 
     def rec(self, x, y, steps, results):
+        self.draw_frame(self.grid)
+        self.arrays.append(deepcopy(self.grid))
         time.sleep(.001)
         self.grid[y][x] = 2
         self.arrays.append(deepcopy(self.grid))
@@ -74,25 +76,16 @@ class Maze_solver:
             out = self.computer.eval(i) 
             if out == 0:
                 self.grid[new_y][new_x] = 3
-                self.draw_frame(self.grid)
-                self.arrays.append(deepcopy(self.grid))
                 continue
             elif out == 1:
                 self.grid[new_y][new_x] = 2
                 self.grid[y][x] = 1
-                self.draw_frame(self.grid)
-                self.arrays.append(deepcopy(self.grid))
                 self.rec(new_x, new_y, steps+1, results)
                 self.computer.eval(self.backtracking[i])
                 self.grid[y][x] = 2
             elif out == 2:
-                print(new_x, new_y)
                 self.grid[new_y][new_x] = 4
-                print("doons", results)
                 self.computer.eval(self.backtracking[i])
-                self.draw_frame(self.grid)
-                self.arrays.append(deepcopy(self.grid))
-        
                 results.append(steps)
         self.grid[y][x] = 1
 
