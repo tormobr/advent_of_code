@@ -61,7 +61,7 @@ def print_beam(arr):
 if __name__ == "__main__":
     data = {i: int(x) for (i,x) in enumerate(open("input.txt", "r").read().split(","))}
     
-    print(part1(data,9))
+    print(part1(data,99))
     #print(part2(data))
 
     
