@@ -5,12 +5,13 @@ from plotter import Animater
 from copy import deepcopy
 
 def part1(data, val):
-    dim = val*15
+    dim = val*12
     arr = np.zeros((dim,dim))
     arrays = []
     start_x = 0
-    last_xs = [0]*val
-    i = val
+    last_xs = np.zeros((dim), dtype=int)
+    print(last_xs)
+    i = 0
     ship_loc = False
     while i < dim:
         arrays.append(deepcopy(arr))
@@ -23,13 +24,13 @@ def part1(data, val):
                 found = True
                 start_x = j
             if found and not out:
-                last_xs.append(j-1)
+                last_xs[i] = j-1
                 break
-
-        if not ship_loc:
-            done, res_i,res_j  = test_array(arr, i,last_xs[i-val], val=val)
-        if done:
-            ship_loc = True
+        done = False
+        if not ship_loc and i > val:
+            done, res_i,res_j  = test_array(arr,arrays, i,last_xs[i-val], val=val)
+        #if done:
+            #ship_loc = True
             #print(done, res_i, res_j)
             #print(arr)
             #return (10000*res_j)+res_i
@@ -40,10 +41,14 @@ def part1(data, val):
     a = Animater(arrays)
     return np.count_nonzero(arr == 1)
 
-def test_array(a, current_index, last_x, val=99):
+def test_array(a, arrays, current_index, last_x, val=99):
     i = current_index-val
     if a[i][last_x-val] == 1 and a[i+val][last_x-val] == 1:
-        a[i:i+val+1, last_x-val: last_x+1] = 2
+        for i in range(i+val, i-1, -1):
+            for j in range(last_x, last_x-val-1, -1):
+                a[i,j] = 2
+                arrays.append(deepcopy(a))
+
         return True, i, last_x-val
     return False, 0, 0
 
