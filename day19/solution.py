@@ -14,40 +14,41 @@ def part1(data, val):
     i = 0
     ship_loc = False
     while i < dim:
-        arrays.append(deepcopy(arr))
+        if i % 3 == 0:
+            arrays.append(deepcopy(arr))
         found = False
         for j in range(start_x, dim):
-            computer = Intcoder(data.copy(), 0)
-            out = computer.eval([j,i])    
-            arr[i,j] = out
+            if found == True and j < last_xs[i-1] -2:
+                arr[i,j] = 1
+                continue
+            else:
+                computer = Intcoder(data.copy(), 0)
+                out = computer.eval([j,i])    
+                arr[i,j] = out
             if out and not found:
                 found = True
                 start_x = j
             if found and not out:
                 last_xs[i] = j-1
                 break
-        done = False
-        if not ship_loc and i > val:
+        if not ship_loc:
             done, res_i,res_j  = test_array(arr,arrays, i,last_xs[i-val], val=val)
-        #if done:
-            #ship_loc = True
-            #print(done, res_i, res_j)
-            #print(arr)
-            #return (10000*res_j)+res_i
-        print("haxor" , i, np.sum(arr[i]))
+        if done:
+            ship_loc = True
+            print(done, res_i, res_j)
         i += 1
+
     for _ in range(200):
         arrays.append(deepcopy(arr))
-    a = Animater(arrays)
-    return np.count_nonzero(arr == 1)
+    Animater(arrays)
+    return (10000*res_j)+res_i
 
 def test_array(a, arrays, current_index, last_x, val=99):
     i = current_index-val
     if a[i][last_x-val] == 1 and a[i+val][last_x-val] == 1:
         for i in range(i+val, i-1, -1):
-            for j in range(last_x, last_x-val-1, -1):
-                a[i,j] = 2
-                arrays.append(deepcopy(a))
+            a[i,last_x-val:last_x] = 2
+            arrays.append(deepcopy(a))
 
         return True, i, last_x-val
     return False, 0, 0
