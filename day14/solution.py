@@ -18,6 +18,7 @@ def part2(data):
     spare = defaultdict(int)
     return bisection(l, h, data, spare, 1000000000000)
 
+# searches for the right amount of fuel for 1 trillion ores
 def bisection(l, h, data, spare, n ):
     c = (h + l) // 2
     while l < c  and c < h:
@@ -27,6 +28,8 @@ def bisection(l, h, data, spare, n ):
         l, h, c = set_boundary(l, h, c, res, n)
     return l,c,h, sum(ores)
 
+
+# sets the upper and lower boundaries for bisection search
 def set_boundary(l, h, c, res, n):
     if res > n:
         h = c
@@ -37,7 +40,7 @@ def set_boundary(l, h, c, res, n):
     return l, h, c
     
     
-
+# recursively executes all the reactions
 def execute_reactions(data, current, needed, ores,spare):
     gets = data[current]["val"]
     reactants = data[current]["reac"]
@@ -62,6 +65,8 @@ def execute_reactions(data, current, needed, ores,spare):
     for reac in reactants:
         execute_reactions(data, reac[1], reac[0]*mul, ores,spare)
 
+
+# parses the file and creates data input
 if __name__ == "__main__":
     data = {}
     with open("input.txt") as f:
