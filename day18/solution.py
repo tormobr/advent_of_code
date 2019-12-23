@@ -25,14 +25,17 @@ class Maze_solver:
         x, y = self.start
         current = State(x, y, [])
         current = (x, y, [])
-        queue = deque()
+        #queue = deque()
+        queue = []
         queue.append((current, 0))
         results = []
 
         while queue:
-            current,steps = queue.popleft()
+            #current,steps = queue.popleft()
+            current,steps = queue.pop(0)
             val = self.data[current.y][current.x]
-            key = (current.x, current.y, tuple(sorted(current.keys)))
+            #key = (current.x, current.y, tuple(sorted(current.keys)))
+            key = (current[0], current[1], tuple(sorted(current[2])))
             new_keys = set(current.keys)
             
             if val == "#" or key in visited:
