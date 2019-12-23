@@ -99,13 +99,11 @@ class Portal_maze:
     def convert_array(self, a):
         for i in range(len(a)):
             for j in range(len(a[i])):
-                if a[i][j] == " ": a[i][j] = 0
-                elif a[i][j] == "#": a[i][j] = 1
-                elif a[i][j] == "M": a[i][j] = 2
+                if a[i][j] == "#": a[i][j] = 0
                 elif a[i][j] == ".": a[i][j] = 3
-                elif a[i][j] == "K": a[i][j] = 5
+                elif a[i][j] == "@": a[i][j] = -1
                 else:
-                    a[i][j] = 4
+                    a[i][j] = 2
         return a
 
         
