@@ -6,7 +6,7 @@ from collections import defaultdict
 sys.setrecursionlimit(10**6)
 class Portal_maze:
     def __init__(self, data):
-        self.data = data
+        self.grid = data
         self.portals = defaultdict(lambda: list())
         self.mappings = {}
         self.max_x = len(data[0])-1
@@ -39,7 +39,7 @@ class Portal_maze:
         return True
 
     
-
+    # breadth first search to find the path in the maze
     def BFS(self, start_x, start_y, levels=False):
         visited = set()
         queue = [(start_x, start_y, 0, 0)]
@@ -49,12 +49,12 @@ class Portal_maze:
             #x, y, current_steps, level, path = queue.pop(0)
             x, y, current_steps, level = queue.pop(0)
             visited.add((x,y,level))
-            val = self.data[y][x]
+            val = self.grid[y][x]
             """ For plottting
             #path.append((x,y))
-            #self.data[y][x] = "M"
+            #self.grid[y][x] = "M"
             #if iteration % 10 == 0:
-                #arr = self.convert_array(deepcopy(self.data))
+                #arr = self.convert_array(deepcopy(self.grid))
                 #self.arrays.append(arr)
             """
             if val >= "A" and val <= "Z":
@@ -80,20 +80,20 @@ class Portal_maze:
             for d in self.directions:
                 new_x = x + d[0]
                 new_y = y + d[1]
-                new_val = self.data[new_y][new_x]
+                new_val = self.grid[new_y][new_x]
                 if new_val not in [" ", "#"] and (new_x, new_y, level) not in visited:
                     queue.append((new_x, new_y, current_steps + 1, level))
             iteration += 1
         
         # For plotting
-        #arr = self.convert_array(deepcopy(self.data))
+        #arr = self.convert_array(deepcopy(self.grid))
         #for _ in range(100):
             #self.arrays.append(arr)
    
     def backtrack(self, path):
         for x,y in path:
-            self.data[y][x] = "K"
-            arr = self.convert_array(deepcopy(self.data))
+            self.grid[y][x] = "K"
+            arr = self.convert_array(deepcopy(self.grid))
             self.arrays.append(arr)
 
     def convert_array(self, a):
@@ -109,9 +109,9 @@ class Portal_maze:
         return a
 
         
-
+    # gets the portal location from the file input
     def get_portals(self):
-        for y,line  in enumerate(self.data):
+        for y,line  in enumerate(self.grid):
             for x,c in enumerate(line):
                 #print(f"max_x: {self.max_x} max_y: {self.max_y}, current_x:{x} current_y: {y}")
                 d = (0,0)
@@ -122,19 +122,21 @@ class Portal_maze:
                 self.mappings[v[0]] = v[1]
                 self.mappings[v[1]] = v[0]
 
+    # Check the next doors when found the start of portal name
     def check_neigbohrs(self, x, y, val):
         for d in self.directions:
             new_x = x + d[0]
             new_y = y + d[1]
             if self.out_of_bounds(new_x, new_y):
                 continue
-            new_val = self.data[new_y][new_x]
+            new_val = self.grid[new_y][new_x]
             if new_val not in [".", "#", " "]:
                 if (new_val, val) not in self.portals.keys():
                     self.portals[(val, new_val)].append(self.get_closest((x,y), (new_x, new_y)) )
                     break
         return (abs(d[0]), abs(d[1]))
        
+    # Gets the "part" of the portal that is connected to maze
     def get_closest(self, pos1, pos2):
         pos = [pos1, pos2]
         for d in self.directions:
@@ -145,8 +147,10 @@ class Portal_maze:
                 if self.out_of_bounds(new_x, new_y):
                     continue
                 
-                if self.data[new_y][new_x] == ".":
+                if self.grid[new_y][new_x] == ".":
                     return (new_x, new_y)
+
+    # checks if x,y coordinates are off the grid
     def out_of_bounds(self, x, y):
         if x < 0 or x > self.max_x:
             return True
