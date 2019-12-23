@@ -1,6 +1,7 @@
+import sys
 import time
 from collections import defaultdict
-
+sys.setrecursionlimit(10**6)
 class Portal_maze:
     def __init__(self, data):
         
@@ -28,11 +29,11 @@ class Portal_maze:
         visited.add((x,y))
         val = self.data[y][x]
         self.data[y][x] = "M"
-        self.draw()
+        #self.draw()
         print(val)
         if (x,y) in self.portals[("Z","Z")]:
             print("STEPS: ", steps)
-            time.sleep(4)
+            #time.sleep(4)
             return steps
 
         if (x, y) in self.mappings.keys():
@@ -41,7 +42,7 @@ class Portal_maze:
             self.data[y][x] = "M"
             visited.add((x,y))
             steps += 1
-            self.draw()
+            #self.draw()
         if val >= "A" and val <= "Z":
             return -1
 
@@ -52,8 +53,13 @@ class Portal_maze:
             new_val = self.data[new_y][new_x]
             if new_val not in [" ", "#"] and (new_x, new_y) not in visited:
                 results.append(self.DFS(new_x, new_y, steps+1, visited.copy()))
-        return max(filter(lambda x: x != -1, results))
-
+                print(results)
+        results = list(filter(lambda x: x != -1, results))
+        if len(results) > 0:
+            print(results)
+            #time.sleep(1)
+            return min(results)
+        return -1
     def draw(self):
         res = ""
         for line in self.data:
