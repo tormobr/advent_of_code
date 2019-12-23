@@ -1,76 +1,68 @@
-from collections import defaultdict
+from collections import defaultdict, namedtuple, deque
 import time
-import numpy as np
 
 class Maze_solver:
     def __init__(self,data):
         self.data = data
-        start_arr = np.where(data == "@")
-        self.start = (start_arr[1][0], start_arr[0][0])
-        print(self.start)
+        self.start = (0,0)
         self.directions = [(0,-1), (1,0), (0,1),(-1,0)]
-        self.keys = []
+        self.keys = set()
         self.get_keys()
-        print(self.keys)
         self.doors = [k.upper() for k in self.keys]
         self.visited = set()
         self.distances = defaultdict(int)
-        print(self.start)
-    def get_keys(self):
-        for y in range(len(data)):
-            for x in range(len(data[y])):
-                if ord(data[y,x]) >= 97 and ord(self.data[y,x]) <= 122:
-                    self.keys.append(data[y,x])
+        print(self.keys)
+        time.sleep(2)
+
+
     def part1(self):
-        res = {}
-        current_keys = []
-        current = self.start
-        self.DFS(*self.start, current_keys, 0, res, 0)
-        print("from root", res)
+        return min(self.BFS())
 
-        while set(self.distances.keys()) != set(self.keys):
-            prev_res = res.copy()
-            print("from k", res)
-            for k,v in prev_res.items():
-                self.visited = set()
-                res = {}
-                #if self.distances[k] == 0 or v[0] < self.distances[k]:
-                self.distances[k] = v[0]
-                self.draw()
-                self.data = np.where(self.data == k, ".", self.data) 
-                self.data = np.where(self.data == k.upper(), ".", self.data) 
-                self.draw()
-                self.DFS(*v[1], current_keys, 0, res, v[0])
-                print(self.distances.items())
 
-        return self.distances.items()
-    
-    # gets the distance to all keys from one pos
-    def DFS(self, x, y, current_keys, steps, res, prevdist):
-        self.visited.add((x,y))
-        #print("current_steps:", steps, current_keys)
-        #print("x,y", x,y)
-        val = self.data[y,x]
-        #print(x,y,val)
-        #self.data[y,x] = "X"
-        #print(val)
-        #self.draw()
-        if val in self.keys and val not in current_keys:
-            #print("collecting key:", val, "on step:", steps)
-            current_keys.append(val)
-            res[val] = (steps + prevdist, (x,y))
-        #self.data[y,x] = "."
-        for dirr in self.directions:
-            new_x = x + dirr[0]
-            new_y = y + dirr[1]
-            if (new_x, new_y) not in self.visited:
-                if self.data[new_y, new_x] != "#" and self.data[new_y, new_x] not in self.doors:
-                    #print("recursing into")
-                    self.DFS(new_x, new_y, current_keys.copy(), steps+1,  res, prevdist)
-        #print("backtracking")
-            else:
-                pass
-                #print("been to", new_x, new_y, "with keys:", current_keys)
+
+    def BFS(self):
+        visited = set()
+        State = namedtuple("State","x y keys")
+        x, y = self.start
+        current = State(x, y, [])
+        queue = deque()
+        queue.append((current, 0))
+        results = []
+
+        while queue:
+            current,steps = queue.popleft()
+            val = self.data[current.y][current.x]
+            key = (current.x, current.y, tuple(sorted(current.keys)))
+            new_keys = set(current.keys)
+            
+            if val == "#" or key in visited:
+                continue
+            visited.add(key)
+
+            if val in self.keys and val not in current.keys:
+                new_keys.add(val)
+                print(new_keys)
+                if new_keys == self.keys:
+                    print("ALL KEYS FOUND: ", steps)
+                    results.append(steps)
+                    return results
+                    time.sleep(10)
+            if val in self.doors and val.lower() not in current.keys:
+                continue
+
+
+            #self.data[current.y][current.x] = "."
+            for d in self.directions:
+                new_x = current.x + d[0]
+                new_y = current.y + d[1]
+                new_state = State(new_x, new_y, new_keys)
+                queue.append((new_state, steps+1))
+            
+
+        print(results)
+        return results
+
+
 
     def draw(self):
         res = ""
@@ -80,11 +72,20 @@ class Maze_solver:
             res += "\n"
         print(res)
 
+    def get_keys(self):
+        for i,line in enumerate(data):
+            for j, c in enumerate(line):
+                if "a" <= c <= "z": self.keys.add(c)
+                elif c == "@": self.start = (j,i)
+
 
 if __name__ == "__main__":
-    #data = np.array([[s for s in line.strip()] for line in open("input.txt", "r").read().split()], dtype=str)
-    #data = np.array([[s for s in line.strip()] for line in open("input2.txt", "r").read().split()], dtype=str)
-    data = np.array([[s for s in line.strip()] for line in open("input3.txt", "r").read().split()], dtype=str)
+    data = [[s for s in line.strip()] for line in open("input.txt", "r").read().split()]
+    #data = [[s for s in line.strip()] for line in open("input2.txt", "r").read().split()]
+    #data = [[s for s in line.strip()] for line in open("input3.txt", "r").read().split()]
 
     m = Maze_solver(data)
+    s = time.time()
     print(m.part1())
+    e = time.time()
+    print(f"runtime: {e-s}")

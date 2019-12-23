@@ -1,0 +1,86 @@
+from collections import defaultdict, namedtuple
+import time
+import numpy as np
+
+class Maze_solver:
+    def __init__(self,data):
+        self.data = data
+        start_arr = np.where(data == "@")
+        self.start = (start_arr[1][0], start_arr[0][0])
+        self.directions = [(0,-1), (1,0), (0,1),(-1,0)]
+        self.keys = []
+        self.get_keys()
+        self.doors = [k.upper() for k in self.keys]
+        self.visited = set()
+        self.distances = defaultdict(int)
+        print(self.keys)
+
+
+    def part1(self):
+        self.BFS()
+
+
+
+    def BFS(self):
+        visited = set()
+        State = namedtuple("State","x y keys")
+        x, y = self.start
+        current = State(x, y, tuple([]))
+        queue = [(current, 0)]
+        results = []
+
+        while queue:
+            current,steps = queue.pop(0)
+            val = self.data[current.y][current.x]
+            visited.add(current)
+            new_keys = list(current.keys)
+            self.data[current.y][current.x] = "M"
+            self.draw()
+            time.sleep(.05)
+            
+            if val in self.keys and val not in current.keys:
+                new_keys.append(val)
+                print(new_keys)
+            if val in self.doors and val.lower() not in current.keys:
+                continue
+            if set(new_keys) == set(self.keys):
+                print("ALL KEYS FOUND: ", steps)
+                results.append(steps)
+                #time.sleep(2)
+
+
+            self.data[current.y][current.x] = "."
+            for d in self.directions:
+                new_x = current.x + d[0]
+                new_y = current.y + d[1]
+                new_state = State(new_x, new_y, tuple(new_keys))
+                if new_state not in visited and self.data[new_state.y][new_state.x] != "#":
+                    queue.append((new_state, steps+1))
+            
+
+        print(results)
+        return results
+
+
+
+    def draw(self):
+        res = ""
+        for i in range(len(self.data)):
+            for j in range(len(self.data[i])):
+                res += self.data[i,j]
+            res += "\n"
+        print(res)
+
+    def get_keys(self):
+        for line in data:
+            for c in line:
+                if "a" <= c <= "z": self.keys.append(c)
+
+
+if __name__ == "__main__":
+    #data = np.array([[s for s in line.strip()] for line in open("input.txt", "r").read().split()], dtype=str)
+    #data = np.array([[s for s in line.strip()] for line in open("input2.txt", "r").read().split()], dtype=str)
+    data = np.array([[s for s in line.strip()] for line in open("input3.txt", "r").read().split()], dtype=str)
+
+    m = Maze_solver(data)
+    print(m.part1())
