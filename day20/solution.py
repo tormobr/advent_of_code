@@ -1,3 +1,4 @@
+import time
 from collections import defaultdict
 
 class Portal_maze:
@@ -5,37 +6,53 @@ class Portal_maze:
         
         self.data = data
         self.portals = defaultdict(lambda: list())
+        self.mappings = {}
         self.max_x = len(data[0])-1
         self.max_y = len(data)-1
         self.directions = [(0,1), (0,-1), (1,0), (-1,0)]
-        self.visited = set()
 
     def part1(self):
         self.get_portals()
-        print(self.portals)
+        print(self.mappings)
     
         start = self.portals[("A", "A")]
         start_x = start[0][0]
         start_y = start[0][1]
-        
-        self.DFS(start_x, start_y, 0)
+        visited = set()        
+        self.DFS(start_x, start_y, 0, visited)
         #self.draw()
         
-    def DFS(self, x, y, steps):
-        self.visited.add((x,y))
+    def DFS(self, x, y, steps, visited):
+        results = []
+        visited.add((x,y))
         val = self.data[y][x]
+        self.data[y][x] = "M"
+        self.draw()
+        #time.sleep(.2)
         print(val)
         if (x,y) in self.portals[("Z","Z")]:
             print("STEPS: ", steps)
+            time.sleep(4)
+            return steps
 
+
+        if (x, y) in self.mappings.keys():
+            self.data[y][x] = "."
+            x, y = self.mappings[(x, y)]
+            self.data[y][x] = "M"
+            visited.add((x,y))
+            steps += 1
+            self.draw()
+            #time.sleep(.2)
         if val >= "A" and val <= "Z":
             return
-
+        self.data[y][x] = "."
         for d in self.directions:
             new_x = x + d[0]
             new_y = y + d[1]
-            if self.data[new_y][new_x] not in [" ", "#"] and (new_x, new_y) not in self.visited:
-                self.DFS(new_x, new_y, steps+1)
+            new_val = self.data[new_y][new_x]
+            if new_val not in [" ", "#"] and (new_x, new_y) not in visited:
+                self.DFS(new_x, new_y, steps+1, visited.copy())
 
     def draw(self):
         res = ""
@@ -48,10 +65,15 @@ class Portal_maze:
     def get_portals(self):
         for y,line  in enumerate(self.data):
             for x,c in enumerate(line):
-                print(f"max_x: {self.max_x} max_y: {self.max_y}, current_x:{x} current_y: {y}")
+                #print(f"max_x: {self.max_x} max_y: {self.max_y}, current_x:{x} current_y: {y}")
                 d = (0,0)
                 if c not in [" ", ".", "#"]:
                     d = self.check_neigbohrs(x,y,c)
+        for k, v in self.portals.items():
+            print("k", k)
+            if len(v) >1:
+                self.mappings[v[0]] = v[1]
+                self.mappings[v[1]] = v[0]
 
     def check_neigbohrs(self, x, y, val):
         for d in self.directions:
@@ -64,7 +86,6 @@ class Portal_maze:
                 if (new_val, val) not in self.portals.keys():
                     self.portals[(val, new_val)].append(self.get_closest((x,y), (new_x, new_y)) )
                     break
-        print(d)
         return (abs(d[0]), abs(d[1]))
        
     def get_closest(self, pos1, pos2):
