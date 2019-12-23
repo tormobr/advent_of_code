@@ -42,48 +42,53 @@ class Portal_maze:
 
     def BFS(self, start_x, start_y, levels=False):
         visited = set()
-        queue = [(start_x, start_y, 0, 0, [])]
+        queue = [(start_x, start_y, 0, 0)]
         level = 0        
         iteration = 0
         while len(queue) > 0:
-            x, y, current_steps, level, path = queue.pop(0)
+            #x, y, current_steps, level, path = queue.pop(0)
+            x, y, current_steps, level = queue.pop(0)
             visited.add((x,y,level))
             val = self.data[y][x]
-            path.append((x,y))
-            self.data[y][x] = "M"
-            if iteration % 10 == 0:
-                arr = self.convert_array(deepcopy(self.data))
-                self.arrays.append(arr)
+            """ For plottting
+            #path.append((x,y))
+            #self.data[y][x] = "M"
+            #if iteration % 10 == 0:
+                #arr = self.convert_array(deepcopy(self.data))
+                #self.arrays.append(arr)
+            """
             if val >= "A" and val <= "Z":
                 continue
 
             if (x,y) in self.portals[("Z","Z")] and level == 0:
-                print(f"answer: {current_steps}")
-                self.backtrack(path)
-                #return current_steps
+                # for plotting
+                #print(f"answer: {current_steps}")
+                #self.backtrack(path)
+                return current_steps
 
             if (x, y) in self.mappings.keys():
                 new_x, new_y = self.mappings[(x, y)]
                 # For part one where levels are irrelevant
                 if not levels:
-                    queue.append((new_x, new_y, current_steps+1, level, path.copy()))
+                    queue.append((new_x, new_y, current_steps+1, level))
 
                 elif self.outer(x,y) and level != 0 and (new_x, new_y, level-1) not in visited:
-                    queue.append((new_x, new_y, current_steps +1, level-1, path.copy()))
+                    queue.append((new_x, new_y, current_steps +1, level-1))
                 elif not self.outer(x,y) and (new_x, new_y, level+1) not in visited:
-                    queue.append((new_x, new_y, current_steps +1, level+1, path.copy()))
+                    queue.append((new_x, new_y, current_steps +1, level+1))
 
             for d in self.directions:
                 new_x = x + d[0]
                 new_y = y + d[1]
                 new_val = self.data[new_y][new_x]
                 if new_val not in [" ", "#"] and (new_x, new_y, level) not in visited:
-                    queue.append((new_x, new_y, current_steps + 1, level, path.copy()))
+                    queue.append((new_x, new_y, current_steps + 1, level))
             iteration += 1
-
-        arr = self.convert_array(deepcopy(self.data))
-        for _ in range(100):
-            self.arrays.append(arr)
+        
+        # For plotting
+        #arr = self.convert_array(deepcopy(self.data))
+        #for _ in range(100):
+            #self.arrays.append(arr)
    
     def backtrack(self, path):
         for x,y in path:
@@ -156,6 +161,6 @@ if __name__ == "__main__":
     data = [[c for c in line.strip("\n")] for line in open("input.txt")]
     PM = Portal_maze(data.copy())
     print(f"Part 1 answer: {PM.part1()}")
-    Animater(PM.arrays)
-    #PM2 = Portal_maze(data)
-    #print(f"Part 2 answer: {PM2.part2()}")
+    # Animater(PM.arrays) plotting
+    PM2 = Portal_maze(data)
+    print(f"Part 2 answer: {PM2.part2()}")
