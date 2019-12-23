@@ -23,7 +23,49 @@ class Portal_maze:
         res = self.DFS(start_x, start_y, 0, visited)
         return res
         #self.draw()
+
+    def part2(self):
+        self.get_portals()
+        start_x, start_y = self.portals[("A", "A")][0]
+        res = self.BFS(start_x, start_y)
+        return res
+
+    # Determines wether a point is on inner or outer side of donut
+    def outer(self, x, y):
+        if 3 < x and x < self.max_x-3 and 3 < y and y < self.max_y-3:
+            return False
+        return True
+
         
+    def BFS(self, start_x, start_y):
+        visited = set()
+        queue = [(start_x, start_y, 0, 0)]
+        level = 0        
+
+        while len(queue) > 0:
+            x, y, current_steps, level = queue.pop(0)
+            visited.add((x,y,level))
+            val = self.data[y][x]
+            if val >= "A" and val <= "Z":
+                continue
+
+            if (x,y) in self.portals[("Z","Z")] and level == 0:
+                return current_steps
+
+            if (x, y) in self.mappings.keys():
+                new_x, new_y = self.mappings[(x, y)]
+                if self.outer(x,y) and level != 0 and (new_x, new_y, level-1) not in visited:
+                    queue.append((new_x, new_y, current_steps +1, level-1))
+                elif not self.outer(x,y) and (new_x, new_y, level+1) not in visited:
+                    queue.append((new_x, new_y, current_steps +1, level+1))
+
+            for d in self.directions:
+                new_x = x + d[0]
+                new_y = y + d[1]
+                new_val = self.data[new_y][new_x]
+                if new_val not in [" ", "#"] and (new_x, new_y, level) not in visited:
+                    queue.append((new_x, new_y, current_steps + 1, level))
+ 
     def DFS(self, x, y, steps, visited):
         results = []
         visited.add((x,y))
@@ -119,4 +161,4 @@ if __name__ == "__main__":
     
     data = [[c for c in line.strip("\n")] for line in open("input.txt")]
     PM = Portal_maze(data)
-    print(PM.part1())
+    print(PM.part2())
