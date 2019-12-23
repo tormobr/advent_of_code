@@ -7,12 +7,36 @@ class Portal_maze:
         self.portals = defaultdict(lambda: list())
         self.max_x = len(data[0])-1
         self.max_y = len(data)-1
+        self.directions = [(0,1), (0,-1), (1,0), (-1,0)]
+        self.visited = set()
 
     def part1(self):
         self.get_portals()
         print(self.portals)
+    
+        start = self.portals[("A", "A")]
+        start_x = start[0][0]
+        start_y = start[0][1]
+        
+        self.DFS(start_x, start_y, 0)
         #self.draw()
         
+    def DFS(self, x, y, steps):
+        self.visited.add((x,y))
+        val = self.data[y][x]
+        print(val)
+        if (x,y) in self.portals[("Z","Z")]:
+            print("STEPS: ", steps)
+
+        if val >= "A" and val <= "Z":
+            return
+
+        for d in self.directions:
+            new_x = x + d[0]
+            new_y = y + d[1]
+            if self.data[new_y][new_x] not in [" ", "#"] and (new_x, new_y) not in self.visited:
+                self.DFS(new_x, new_y, steps+1)
+
     def draw(self):
         res = ""
         for line in self.data:
@@ -30,8 +54,7 @@ class Portal_maze:
                     d = self.check_neigbohrs(x,y,c)
 
     def check_neigbohrs(self, x, y, val):
-        directions = [(0,1),(0,-1),(1,0),(-1,0)]
-        for d in directions:
+        for d in self.directions:
             new_x = x + d[0]
             new_y = y + d[1]
             if self.out_of_bounds(new_x, new_y):
@@ -45,9 +68,8 @@ class Portal_maze:
         return (abs(d[0]), abs(d[1]))
        
     def get_closest(self, pos1, pos2):
-        directions = [(0,1),(0,-1),(1,0),(-1,0)]
         pos = [pos1, pos2]
-        for d in directions:
+        for d in self.directions:
             for p in pos:
                 x, y = p
                 new_x = x + d[0]
@@ -58,15 +80,10 @@ class Portal_maze:
                 if self.data[new_y][new_x] == ".":
                     return (new_x, new_y)
     def out_of_bounds(self, x, y):
-        directions = [(0,1),(0,-1),(1,0),(-1,0)]
-        for d in directions:
-            new_x = x + d[0]
-            new_y = y + d[1]
-        
-            if new_x < 0 or new_x > self.max_x:
-                return True
-            if new_y < 0 or new_y > self.max_y:
-                return True
+        if x < 0 or x > self.max_x:
+            return True
+        elif y < 0 or y > self.max_y:
+            return True
 
         return False
 
