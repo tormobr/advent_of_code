@@ -24,6 +24,7 @@ class Maze_solver:
         State = namedtuple("State","x y keys")
         x, y = self.start
         current = State(x, y, [])
+        current = (x, y, [])
         queue = deque()
         queue.append((current, 0))
         results = []
