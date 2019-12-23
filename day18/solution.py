@@ -9,12 +9,18 @@ class Maze_solver:
         self.start = (start_arr[1][0], start_arr[0][0])
         print(self.start)
         self.directions = [(0,-1), (1,0), (0,1),(-1,0)]
-        self.keys = ["a", "b", "c", "d", "e", "f", "g"]
+        self.keys = []
+        self.get_keys()
+        print(self.keys)
         self.doors = [k.upper() for k in self.keys]
         self.visited = set()
         self.distances = defaultdict(int)
         print(self.start)
-
+    def get_keys(self):
+        for y in range(len(data)):
+            for x in range(len(data[y])):
+                if ord(data[y,x]) >= 97 and ord(self.data[y,x]) <= 122:
+                    self.keys.append(data[y,x])
     def part1(self):
         res = {}
         current_keys = []
@@ -28,8 +34,8 @@ class Maze_solver:
             for k,v in prev_res.items():
                 self.visited = set()
                 res = {}
-                if self.distances[k] == 0 or v[0] < self.distances[k]:
-                    self.distances[k] = v[0]
+                #if self.distances[k] == 0 or v[0] < self.distances[k]:
+                self.distances[k] = v[0]
                 self.draw()
                 self.data = np.where(self.data == k, ".", self.data) 
                 self.data = np.where(self.data == k.upper(), ".", self.data) 
