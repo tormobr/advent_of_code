@@ -19,7 +19,8 @@ class Portal_maze:
         start_x = start[0][0]
         start_y = start[0][1]
         visited = set()        
-        self.DFS(start_x, start_y, 0, visited)
+        res = self.DFS(start_x, start_y, 0, visited)
+        return res
         #self.draw()
         
     def DFS(self, x, y, steps, visited):
@@ -28,13 +29,11 @@ class Portal_maze:
         val = self.data[y][x]
         self.data[y][x] = "M"
         self.draw()
-        #time.sleep(.2)
         print(val)
         if (x,y) in self.portals[("Z","Z")]:
             print("STEPS: ", steps)
             time.sleep(4)
             return steps
-
 
         if (x, y) in self.mappings.keys():
             self.data[y][x] = "."
@@ -43,16 +42,17 @@ class Portal_maze:
             visited.add((x,y))
             steps += 1
             self.draw()
-            #time.sleep(.2)
         if val >= "A" and val <= "Z":
-            return
+            return -1
+
         self.data[y][x] = "."
         for d in self.directions:
             new_x = x + d[0]
             new_y = y + d[1]
             new_val = self.data[new_y][new_x]
             if new_val not in [" ", "#"] and (new_x, new_y) not in visited:
-                self.DFS(new_x, new_y, steps+1, visited.copy())
+                results.append(self.DFS(new_x, new_y, steps+1, visited.copy()))
+        return max(filter(lambda x: x != -1, results))
 
     def draw(self):
         res = ""
