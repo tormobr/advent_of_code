@@ -1,3 +1,4 @@
+from numba import jit
 from copy import deepcopy
 from collections import defaultdict, namedtuple, deque
 import time
@@ -9,46 +10,54 @@ class Maze_solver:
         self.directions = [(0,-1), (1,0), (0,1),(-1,0)]
         self.keys = set()
         self.get_keys()
+        self.bin_keys = 1
+        for _ in range(len(self.keys)-1):
+            self.bin_keys = (self.bin_keys << 1)+1
         self.doors = [k.upper() for k in self.keys]
         self.visited = set()
         self.arrays = []
-        print(self.keys)
-        time.sleep(2)
 
 
     def part1(self):
         return min(self.BFS())
 
+    def has_key(self, val, keys):
+        shift_val = ord(val.lower()) - 97
+        if (keys >> (shift_val) & 1) == 1:
+            return True
+        return False
+    
+    @jit(nopython=True)
     def BFS(self):
         visited = set()
-        State = namedtuple("State","x y keys")
+        #State = namedtuple("State","x y keys")
+
         x, y = self.start
-        current = State(x, y, [])
-        current = (x, y, [])
-        #queue = deque()
-        queue = []
+        #current = State(x, y, 0)
+        current = (x, y, 0)
+        queue = deque()
         queue.append((current, 0))
         results = []
 
         while queue:
-            #current,steps = queue.popleft()
-            current,steps = queue.pop(0)
+            current,steps = queue.popleft()
             val = self.data[current.y][current.x]
-            #key = (current.x, current.y, tuple(sorted(current.keys)))
-            key = (current[0], current[1], tuple(sorted(current[2])))
-            new_keys = set(current.keys)
+            key = (current.x, current.y, current.keys)
+            new_keys = current.keys
             
             if val == "#" or key in visited:
                 continue
             visited.add(key)
 
-            if val in self.doors and val.lower() not in current.keys:
+            if val in self.doors and not self.has_key(val, current.keys):
                 continue
 
-            if val in self.keys and val not in current.keys:
-                new_keys.add(val)
-                print(new_keys)
-                if new_keys == self.keys:
+            if val in self.keys:
+                #print(f"found key: {val}")
+                if (new_keys >> ord(val)-97) & 1 != 1:
+                    new_keys = new_keys + (1 << ord(val)-97)
+                    print(bin(new_keys))
+                if new_keys == self.bin_keys:
                     results.append(steps)
                     return results
 
@@ -81,9 +90,9 @@ class Maze_solver:
 
 
 if __name__ == "__main__":
-    #data = [[s for s in line.strip()] for line in open("input.txt", "r").read().split()]
+    data = [[s for s in line.strip()] for line in open("input.txt", "r").read().split()]
     #data = [[s for s in line.strip()] for line in open("input2.txt", "r").read().split()]
-    data = [[s for s in line.strip()] for line in open("input3.txt", "r").read().split()]
+    #data = [[s for s in line.strip()] for line in open("input3.txt", "r").read().split()]
 
     m = Maze_solver(data)
     s = time.time()
