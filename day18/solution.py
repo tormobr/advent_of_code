@@ -1,4 +1,3 @@
-from numba import jit
 from copy import deepcopy
 from collections import defaultdict, namedtuple, deque
 import time
@@ -26,15 +25,12 @@ class Maze_solver:
         if (keys >> (shift_val) & 1) == 1:
             return True
         return False
-    
-    @jit(nopython=True)
+
     def BFS(self):
         visited = set()
-        #State = namedtuple("State","x y keys")
-
+        State = namedtuple("State","x y keys")
         x, y = self.start
-        #current = State(x, y, 0)
-        current = (x, y, 0)
+        current = State(x, y, 0)
         queue = deque()
         queue.append((current, 0))
         results = []
@@ -53,10 +49,9 @@ class Maze_solver:
                 continue
 
             if val in self.keys:
-                #print(f"found key: {val}")
                 if (new_keys >> ord(val)-97) & 1 != 1:
                     new_keys = new_keys + (1 << ord(val)-97)
-                    print(bin(new_keys))
+                    #print(bin(new_keys))
                 if new_keys == self.bin_keys:
                     results.append(steps)
                     return results
