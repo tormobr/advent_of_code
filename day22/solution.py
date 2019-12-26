@@ -1,6 +1,6 @@
 
-def part1(data):
-    cards = [i for i in range(119315717514047)]
+def part1(data, n):
+    cards = [i for i in range(n)]
     for line in data:
         print(line)
         n = 0
@@ -13,14 +13,14 @@ def part1(data):
             cards = cards[n:] + cards[:n]
 
         if "deal with inc" in line:
-            new_cards = [0 for i in range(119315717514047)] 
+            new_cards = [0 for i in range(n)] 
             index = 0
-            for i in range(119315717514047):
-                new_cards[index%119315717514047] = cards[i]
+            for i in range(n):
+                new_cards[index%n] = cards[i]
                 #print("new_cards:", new_cards)
                 index += n 
             cards = new_cards.copy()
-    print(cards.index(2020))
+    print(cards.index(2019))
 
 if __name__ == "__main__":
     data = [line.strip() for line in open("input.txt")]

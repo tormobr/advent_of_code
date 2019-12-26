@@ -1,5 +1,6 @@
 
 import numpy as np
+from itertools import permutations
 
 class Intcoder:
     def __init__(self, data, idd):
@@ -8,6 +9,7 @@ class Intcoder:
         self.ip = 0
         self.current_input = 0
         self.relative_base = 0
+        self.ID = idd
 
         # operation codes and their functions
         self.OPS = {
@@ -39,8 +41,12 @@ class Intcoder:
     def eval(self, i1):
         self.input = i1
         ret = None
+        t = 0
         while ret == None:
             ret = self.execute_code()
+            t += 1
+            if t > 200:
+                return None
         return ret
 
     # executes a intcode
@@ -79,8 +85,8 @@ class Intcoder:
 
     # takes input and stores at parameter 1
     def op_in(self, p1, *args):
-        self.data[p1] = self.input[self.current_input]
-        self.current_input = (self.current_input+ 1) %len(self.input)
+        self.data[p1] = self.input(self.ID)
+        #self.current_input = (self.current_input+ 1) %len(self.input)
         self.ip += 2
 
     # ouputs value on parameter 1
