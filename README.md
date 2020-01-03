@@ -106,11 +106,12 @@ Part 2 is to play the game(spoiler; it is breakout).
 ![Alt text](./day13/plot.gif)
 
 
-## Day 14: Unknown
+## Day 14: Space Stoichiometry
 #### Part 1:
+given a list of reactions between stuff find the number of ORE needed to get 1 FUEL unit
 
 #### Part 2:
-
+If we have 1 trillion ORE how much fuel can we make, given the same reactions?
 
 ## Day 15: Oxygen System
 #### Part 1:
@@ -136,46 +137,61 @@ Vacuum bot moving outside the ship on scaffolds. get the number of intersections
 get the path the bot has to take to cover everything. Must på compressed into Main, A, B, C. Intcode program has limit of 20 chars.
 
 
-## Day 18: Unknown
+## Day 18: Many-Worlds Interpretation
 #### Part 1:
+Find all the keys in the maze in the shortest possible way. Need keys to go passed doors to get other keys
 
 #### Part 2:
+Find all the keys, except there are 4 robots working in each own section of the maze
 
 
-## Day 19: Unknown
+## Day 19: Tractor Beam
 #### Part 1:
+How many points are affected by the tractor beam in a 50x50 area
 
 #### Part 2:
+Get the index of the 100x100 tractor beam square closest to the emitter
 
 
-## Day 20: Unknown
+## Day 20: Donut Maze
 #### Part 1:
+Find the shortest path through the donut/portal maze
 
 #### Part 2:
+Each time you jump through a portal on the inside level incresase, and decrease when on the outside. Find the shortest path through were the target needs to be on level 0
 
+![Alt text](./day20/plot.gif)
 
-## Day 21: Unknown
+## Day 21: Springdroid Adventure
 #### Part 1:
+Write spring script so that the droid gets pass without falling in holes
 
 #### Part 2:
+Extended the view of the droid. Need to write more advanced springscript
 
 
-## Day 22: Unknown
+## Day 22: Slam Shuffle
 #### Part 1:
+Shuffle the cards according to rules and get the position of card 2019
 
 #### Part 2:
+Shuffles according to same rules and do this 1 gazillion times with a larger deck and get the value on 2020
 
 
-## Day 23: Unknown
+## Day 23: Category six
 #### Part 1:
+Create a network of intcode machines the ping each other and get the first message sent to address 255
 
 #### Part 2:
+Change 255 address to NAT and get the first restart signal that is the same in a row sent from NAT to unit 0
 
 
-## Day 24: Unknown
+## Day 24: Planet of Discord
 #### Part 1:
+Game of life.. Get the biodiv of the map after N iterations of the game.
 
 #### Part 2:
+Multilevel game of life.. Not yet done
 
 
 
