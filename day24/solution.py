@@ -65,4 +65,4 @@ def out_of_bounds(x, y, data):
 if __name__ == "__main__":
     data = [[c for c in line.strip()] for line in open("input.txt")]
 
-    print(f"Part 1 answer: {part1(data)}")
+    print("Part 1 answer:", part1(data))
