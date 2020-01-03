@@ -93,4 +93,4 @@ if __name__ == "__main__":
     s = time.time()
     print(m.part1())
     e = time.time()
-    print(f"runtime: {e-s}")
+    print("runtime:", e-s)
