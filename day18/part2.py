@@ -19,21 +19,22 @@ class Maze_solver:
         self.visited = set()
         self.arrays = []
 
-    def generate_binkeys(self, keys):
-        bin_keys = 0
-        for i in range(len(keys)):
-            bin_keys = bin_keys | (1 << (ord(keys[i])-97))
-        return bin_keys
         
 
-    def part1(self):
+    def part2(self):
         x,y = self.start[0]
         keys = [self.TL, self.TR, self.BL, self.BR]
         res = []
         for (x,y),k in zip(self.start, keys):
 
             res.append(min(self.BFS(x,y,k, self.generate_binkeys(k))))
-        print(res, sum(res))
+        return (res, sum(res))
+
+    def generate_binkeys(self, keys):
+        bin_keys = 0
+        for i in range(len(keys)):
+            bin_keys = bin_keys | (1 << (ord(keys[i])-97))
+        return bin_keys
 
     def has_key(self, val, keys):
         shift_val = ord(val.lower()) - 97
@@ -131,6 +132,6 @@ if __name__ == "__main__":
 
     m = Maze_solver(data)
     s = time.time()
-    print(m.part1())
+    print("Part 2 answer: ",m.part2())
     e = time.time()
     print("runtime: ", e-s)
