@@ -61,7 +61,8 @@ class Zork:
                 print(self.res)
                 #inn = self.string_to_ascii(random.choice(self.directions))
                 if index < len(inputs):
-                    inn = self.string_to_ascii(inputs[index] + "\n")
+                    inn = self.string_to_ascii(input("enter direction: ") + "\n")
+                    #inn = self.string_to_ascii(inputs[index] + "\n")
                 else: 
                     return self.break_door()
                 self.computer.set_input(inn)

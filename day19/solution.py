@@ -38,7 +38,7 @@ def part1(data, val):
             print(done, res_i, res_j)
         i += 1
 
-    for _ in range(200):
+    for _ in range(10):
         arrays.append(deepcopy(arr))
     Animater(arrays)
     return (10000*res_j)+res_i

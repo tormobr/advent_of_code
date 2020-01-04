@@ -1,3 +1,4 @@
+![Alt text](plot.gif)
 # Day 19: Tractor Beam
 
 Unsure of the state of Santa's ship, you borrowed the tractor beam technology from Triton. Time to test it out.

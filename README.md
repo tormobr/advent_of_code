@@ -151,6 +151,7 @@ How many points are affected by the tractor beam in a 50x50 area
 
 #### Part 2:
 Get the index of the 100x100 tractor beam square closest to the emitter
+![Alt text](./day19/plot.gif)
 
 
 ## Day 20: Donut Maze
