@@ -5,7 +5,6 @@ from copy import deepcopy
 def part2(data, levels=300):
     SEEN = [data]
     none_data = np.array([[0 for _ in range(5)] for _ in range(5)])
-    #none_data[2][2] = "?"
     datas = []
     L = []
     for i in range(levels):
@@ -19,8 +18,7 @@ def part2(data, levels=300):
 
     for i in range(200):
         for i,level in enumerate(L):
-            print("level:", i)
-            draw(level.data)
+            print(level.data)
             level.iteration()
             datas[i] = deepcopy(level.data)
         for i,level in enumerate(L):
@@ -40,14 +38,6 @@ def set_parents(L, levels):
             L[i].set_parent(parent=L[i-1])
         else:
             L[i].set_parent(parent=L[i-1], child=L[i+1])
-
-def draw(data):
-    res = ""
-    for line in data:
-        for c in line:
-            res += str(c)
-        res += "\n"
-    print(res)
 
 def get_bug_count(L):
     count = 0
