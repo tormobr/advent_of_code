@@ -143,6 +143,7 @@ Find all the keys in the maze in the shortest possible way. Need keys to go pass
 
 #### Part 2:
 Find all the keys, except there are 4 robots working in each own section of the maze
+![Alt text](./day18/plot.gif)
 
 
 ## Day 19: Tractor Beam
