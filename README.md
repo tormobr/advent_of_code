@@ -194,9 +194,16 @@ Change 255 address to NAT and get the first restart signal that is the same in a
 Game of life.. Get the biodiv of the map after N iterations of the game.
 
 #### Part 2:
-Multilevel game of life.. Not yet done
+Multilevel game of life.. completed with plot
 
 ![Alt text](./day24/plot.gif)
 
+
+## Day 25: Cryostasis
+#### Part 1:
+A zork like text based game. Explore the ship and pick up right items to pass door to password
+
+#### Part 2:
+No part 2 for this one..
 
 
