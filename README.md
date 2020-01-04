@@ -1,4 +1,3 @@
-#
 # Advent of code 2019
 ## Solution for the advent of code problems 2019
 In each subdir there is solution, input and sometimes a more pretty solution
