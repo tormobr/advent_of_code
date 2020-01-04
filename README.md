@@ -196,5 +196,7 @@ Game of life.. Get the biodiv of the map after N iterations of the game.
 #### Part 2:
 Multilevel game of life.. Not yet done
 
+![Alt text](./day24/plot.gif)
+
 
 

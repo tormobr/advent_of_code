@@ -1,34 +1,43 @@
+from plotter import Animater
+import time
 import numpy as np
 from level import Level
 from copy import deepcopy
 
-def part2(data, levels=300):
+def part2(data, arrays, iterations=200, levels=300, main=None):
     SEEN = [data]
     none_data = np.array([[0 for _ in range(5)] for _ in range(5)])
-    datas = []
     L = []
     for i in range(levels):
-        L.append(Level(data=none_data))
-        datas.append(none_data)
+        L.append(Level(data=none_data, ID=i))
     set_parents(L, levels)
     L[(levels//2)].set_data(data)
 
-    datas[(levels//2)] = data
-    
-
-    for i in range(200):
+    for i in range(iterations):
+        arrays.append(deepcopy(main))
         for i,level in enumerate(L):
             print(level.data)
             level.iteration()
-            datas[i] = deepcopy(level.data)
         for i,level in enumerate(L):
             level.set_nexxt()
-
-    for i,level in enumerate(L):
-        print("level:", (levels//2)-i)
-        draw(level.data)
+            update_main(main, level, levels)
 
     print("bugcount: ", get_bug_count(L))
+
+def update_main(main, level, levels):
+    start_y = ((level.ID // 15) *5)
+    end_y = start_y+5
+    start_x = ((level.ID % 15) * 5)
+    end_x = start_x+5
+    i, j = 0,0
+    for y in range(start_y, end_y):
+        j = 0
+        for x in range(start_x, end_x):
+            print(main[y,x])
+            print(x,y, j,i )
+            main[y,x] = level.data[i,j]
+            j += 1
+        i += 1
 
 def set_parents(L, levels):
     for i in range(len(L)):
@@ -48,9 +57,13 @@ def get_bug_count(L):
                     count += 1
     return count
 
-
 if __name__ == "__main__":
     data = np.array([[c for c in line.strip()] for line in open("input.txt")])
 
     data = np.where(data=="#", 1, 0)
-    print("Part 1 answer:", part2(data))
+    iterations = 200
+    levels = 225
+    main = np.zeros((75, 75))
+    arrays = []
+    print("Part 2 answer:", part2(data, arrays, iterations=iterations, levels=levels, main=main))
+    Animater(arrays)

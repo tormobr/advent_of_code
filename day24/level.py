@@ -2,7 +2,8 @@ from copy import deepcopy
 import numpy as np
 
 class Level:
-    def __init__(self, depth=0, data=None):
+    def __init__(self, depth=0, data=None, ID=None):
+        self.ID = ID
         self.data = data
         self.nexxt = None
         self.depth = depth

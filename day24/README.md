@@ -1,3 +1,4 @@
+![Alt text](plot.gif)
 # Day 24: Planet of Discord 
 
 You land on Eris, your last stop before reaching Santa. As soon as you do, your sensors start picking up strange life forms moving around: Eris is infested with bugs! With an over 24-hour roundtrip for messages between you and Earth, you'll have to deal with this problem on your own.
