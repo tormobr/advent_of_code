@@ -1,10 +1,11 @@
+import numpy as np
 from level import Level
 from copy import deepcopy
 
-def part2(data, levels=500):
+def part2(data, levels=300):
     SEEN = [data]
-    none_data = [["." for _ in range(5)] for _ in range(5)]
-    none_data[2][2] = "?"
+    none_data = np.array([[0 for _ in range(5)] for _ in range(5)])
+    #none_data[2][2] = "?"
     datas = []
     L = []
     for i in range(levels):
@@ -44,32 +45,22 @@ def draw(data):
     res = ""
     for line in data:
         for c in line:
-            res += c
+            res += str(c)
         res += "\n"
     print(res)
 
 def get_bug_count(L):
     count = 0
     for level in L:
-        #print("drawing level")
-        #draw(level.data)
         for line in level.data:
             for c in line:
-                if c == "#":
+                if c == 1:
                     count += 1
     return count
 
-def get_biodiv(data):
-    index = 0
-    res = 0
-    for line in data:
-        for c in line:
-            if c == "#":
-                res += 2 ** index
-            index += 1
-    return res
 
 if __name__ == "__main__":
-    data = [[c for c in line.strip()] for line in open("input.txt")]
+    data = np.array([[c for c in line.strip()] for line in open("input.txt")])
 
+    data = np.where(data=="#", 1, 0)
     print("Part 1 answer:", part2(data))
