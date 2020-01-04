@@ -53,5 +53,5 @@ if __name__ == "__main__":
     data = {i:int(x) for (i,x) in  enumerate(open("input.txt", "r").read().split(","))}
     b = Breakout(data)
     score = b.play()
-    print(f"Part 2 answer: {score}")
+    print("Part 2 answer: ", score)
     Animater(b.arrays)
